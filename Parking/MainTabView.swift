@@ -7,18 +7,32 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainTabView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            DashboardView()
+                .tabItem {
+                    Label("Dashboard", systemImage: "dot.radiowaves.left.and.right")
+                }
+
+            SpotsListView(spots: MockData.spots)
+                .tabItem {
+                    Label("Spots", systemImage: "parkingsign.circle")
+                }
+
+            DronesListView(drones: MockData.drones)
+                .tabItem {
+                    Label("Drones", systemImage: "airplane.circle")
+                }
+
+            AlertsListView(alerts: MockData.alerts)
+                .tabItem {
+                    Label("Alerts", systemImage: "exclamationmark.triangle")
+                }
         }
-        .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    MainTabView()
 }
