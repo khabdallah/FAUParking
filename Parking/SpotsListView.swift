@@ -10,11 +10,18 @@ import SwiftUI
 struct SpotsListView: View {
     @EnvironmentObject var viewModel: SpotsViewModel
 
+    private var contentPhase: Int {
+        if viewModel.isLoading && viewModel.spots.isEmpty { return 0 }
+        if viewModel.errorMessage != nil && viewModel.spots.isEmpty { return 1 }
+        return 2
+    }
+
     var body: some View {
         NavigationStack {
             Group {
                 if viewModel.isLoading && viewModel.spots.isEmpty {
                     ProgressView("Loading spots…")
+                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } else if let error = viewModel.errorMessage, viewModel.spots.isEmpty {
                     VStack(spacing: 12) {
                         Text(error)
@@ -22,6 +29,7 @@ struct SpotsListView: View {
                             Task { await viewModel.load() }
                         }
                     }
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } else {
                     List(viewModel.spots) { spot in
                         NavigationLink {
@@ -59,8 +67,10 @@ struct SpotsListView: View {
                     .refreshable {
                         await viewModel.load()
                     }
+                    .transition(.opacity)
                 }
             }
+            .animation(.easeInOut(duration: 0.3), value: contentPhase)
             .navigationTitle("Parking Spots")
         }
     }

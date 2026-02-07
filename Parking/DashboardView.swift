@@ -56,6 +56,8 @@ struct DashboardView: View {
                         )
                     }
                     .padding(.horizontal)
+                    .animation(.easeInOut(duration: 0.25), value: spotsViewModel.freeSpotsCount)
+                    .animation(.easeInOut(duration: 0.25), value: spotsViewModel.occupiedSpotsCount)
 
                     // Recent alerts
                     VStack(alignment: .leading, spacing: 8) {
@@ -80,6 +82,7 @@ struct DashboardView: View {
                     if spotsViewModel.isLoading {
                         ProgressView("Refreshing data…")
                             .padding(.top, 8)
+                            .transition(.opacity)
                     }
 
                     if let error = spotsViewModel.errorMessage {
@@ -87,10 +90,13 @@ struct DashboardView: View {
                             .foregroundColor(.red)
                             .font(.footnote)
                             .padding(.top, 4)
+                            .transition(.opacity)
                     }
                 }
                 .padding(.vertical, 8)
             }
+            .animation(.easeInOut(duration: 0.25), value: spotsViewModel.isLoading)
+            .animation(.easeInOut(duration: 0.25), value: spotsViewModel.errorMessage ?? "")
             .refreshable {
                 await spotsViewModel.load()
             }
@@ -111,6 +117,7 @@ struct StatCard: View {
             Text(value)
                 .font(.title2)
                 .bold()
+                .contentTransition(.numericText())
             Text(title)
                 .font(.footnote)
                 .foregroundStyle(.secondary)

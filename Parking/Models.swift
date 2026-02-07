@@ -51,7 +51,7 @@ enum SpotStatus: String, CaseIterable, Codable {
     init(fromDBStatus value: Int) {
         switch value {
         case 1: self = .occupied
-        case 0: self = .free
+        case 0: self = .free	
         default: self = .uncertain
         }
     }

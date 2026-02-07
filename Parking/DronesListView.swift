@@ -36,7 +36,9 @@ struct DronesListView: View {
                         .frame(width: 90)
                     }
                 }
+                .animation(.easeInOut(duration: 0.2), value: drone.batteryLevel)
             }
+            .animation(.easeInOut(duration: 0.25), value: drones.count)
             .navigationTitle("Drones")
         }
     }

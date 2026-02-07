@@ -109,6 +109,7 @@ struct SpotDetailView: View {
             }
             .padding()
         }
+        .animation(.easeInOut(duration: 0.25), value: spot.id)
         .navigationTitle("Spot \(spot.name)")
         .navigationBarTitleDisplayMode(.inline)
     }

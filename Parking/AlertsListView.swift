@@ -15,6 +15,7 @@ struct AlertsListView: View {
             List(alerts.sorted { $0.timestamp > $1.timestamp }) { alert in
                 AlertRow(alert: alert)
             }
+            .animation(.easeInOut(duration: 0.25), value: alerts.count)
             .navigationTitle("Alerts")
         }
     }
