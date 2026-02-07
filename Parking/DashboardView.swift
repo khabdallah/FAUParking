@@ -91,6 +91,9 @@ struct DashboardView: View {
                 }
                 .padding(.vertical, 8)
             }
+            .refreshable {
+                await spotsViewModel.load()
+            }
             .navigationTitle("Dashboard")
         }
     }

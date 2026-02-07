@@ -56,6 +56,9 @@ struct SpotsListView: View {
                             }
                         }
                     }
+                    .refreshable {
+                        await viewModel.load()
+                    }
                 }
             }
             .navigationTitle("Parking Spots")
