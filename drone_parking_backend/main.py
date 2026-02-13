@@ -100,8 +100,13 @@ async def detect_parking(file: UploadFile = File(...)):
 
         if is_occ:
             occupied.append(spot_id)
+            cv2.polylines(vis, [polygon], isClosed=True, color=(0, 0, 255), thickness=2)
         else:
             free.append(spot_id)
+            cv2.polylines(vis, [polygon], isClosed=True, color=(0, 255, 0), thickness=2)
+
+    for box in boxes:
+        cv2.rectangle(vis, (box[0], box[1]), (box[2], box[3]), (255, 0, 0), 2)
     cv2.imwrite("debug_labeled.jpg", vis)
     return {
         "occupied": occupied,
