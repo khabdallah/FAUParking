@@ -7,7 +7,7 @@ import pickle
 import os
 
 app = FastAPI()
-
+print("LOADING NEW MAIN.PY")
 
 # Initialize Roboflow
 rf = Roboflow(api_key="crcxvzrMUhqJYcyMcpW8")
@@ -15,47 +15,65 @@ project = rf.workspace("drone-parking-management-system").project("drone-parking
 model = project.version(3).model
 
 # Load Parking Data
-MASTER_IMAGE_PATH = "master_lot.JPG"
-PARKING_DATA_PATH = "parking_data.pkl"
+LOT_DIR = "lots"
 
-master_img = cv2.imread(MASTER_IMAGE_PATH)
-if master_img is None:
-    raise RuntimeError(f"Failed to load master image: {MASTER_IMAGE_PATH}")
+def load_lot(lot_id):
+    lot_path = os.path.join(LOT_DIR, lot_id)
+    master_path = os.path.join(lot_path, "master.jpg")
+    parking_path = os.path.join(lot_path, "parking.pkl")
 
-master_gray = cv2.cvtColor(master_img, cv2.COLOR_BGR2GRAY)
+    if not os.path.exists(master_path):
+        return None, None, f"Master image missing for {lot_id}"
 
-orb = cv2.ORB_create(5000)
-kp_master, des_master = orb.detectAndCompute(master_gray, None)
+    if not os.path.exists(parking_path):
+        return None, None, f"Parking data missing for {lot_id}"
 
-with open(PARKING_DATA_PATH, "rb") as f:
-    parking_data = pickle.load(f)
+    master_img = cv2.imread(master_path)
+
+    with open(parking_path, "rb") as f:
+        parking_data = pickle.load(f)
+
+    return master_img, parking_data, None
 
 
-def align_to_master(input_img):
-    gray1 = cv2.cvtColor(master_img, cv2.COLOR_BGR2GRAY)
-    gray2 = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
+def align_to_master(master, new_img):
+    gray1 = cv2.cvtColor(master, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
 
     orb = cv2.ORB_create(5000)
     kp1, des1 = orb.detectAndCompute(gray1, None)
     kp2, des2 = orb.detectAndCompute(gray2, None)
 
+    if des1 is None or des2 is None:
+        return new_img, None
+
     matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
     matches = matcher.match(des1, des2)
-    matches = sorted(matches, key=lambda x: x.distance)[:200]
+
+    matches = sorted(matches, key=lambda x: x.distance)
+    matches = matches[:200]
 
     pts1 = np.float32([kp1[m.queryIdx].pt for m in matches])
     pts2 = np.float32([kp2[m.trainIdx].pt for m in matches])
 
     H, _ = cv2.findHomography(pts2, pts1, cv2.RANSAC)
 
-    aligned = cv2.warpPerspective(input_img, H,
-                                  (master_img.shape[1], master_img.shape[0]))
+    if H is None:
+        return new_img, None
 
+    aligned = cv2.warpPerspective(new_img, H, (master.shape[1], master.shape[0]))
     return aligned, H
 
 
-@app.post("/detect")
-async def detect_parking(file: UploadFile = File(...)):
+@app.post("/detect/{lot_id}")
+async def detect_parking(lot_id: str, file: UploadFile = File(...)):
+
+    # ---- Load lot config ----
+    master_img, parking_data, err = load_lot(lot_id)
+    if err:
+        return {"error": err}
+
+    # ---- Read uploaded image ----
     contents = await file.read()
     nparr = np.frombuffer(contents, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -63,55 +81,67 @@ async def detect_parking(file: UploadFile = File(...)):
     if image is None:
         return {"error": "Image decode failed"}
 
-    # Align to master
-    aligned_img, H = align_to_master(image)
+    # Save raw debug
+    os.makedirs("debug", exist_ok=True)
+    cv2.imwrite("debug/raw.jpg", image)
 
-    # Save aligned image for Roboflow
-    cv2.imwrite("aligned.jpg", aligned_img)
+    # ---- Align to master ----
+    aligned, H = align_to_master(master_img, image)
 
-    # Run detection on aligned image
-    rf_pred = model.predict("aligned.jpg", confidence=40, overlap=30).json()
-    predictions = rf_pred["predictions"]
+    # ---- Roboflow detection ----
+    cv2.imwrite("debug/aligned.jpg", aligned)
+    pred = model.predict("debug/aligned.jpg", confidence=40, overlap=30).json()
+    detections = pred["predictions"]
 
     boxes = []
-    for p in predictions:
-        x, y, w, h = p["x"], p["y"], p["width"], p["height"]
+    for d in detections:
+        x, y, w, h = d["x"], d["y"], d["width"], d["height"]
         x1, y1 = int(x - w/2), int(y - h/2)
         x2, y2 = int(x + w/2), int(y + h/2)
-        boxes.append([x1, y1, x2, y2])
+        boxes.append((x1, y1, x2, y2))
 
+    # ---- Occupancy ----
     occupied = []
     free = []
-    vis = aligned_img.copy()
 
-    # Compare in MASTER coordinate space
+    vis = aligned.copy()
+
     for spot in parking_data:
         polygon = np.array(spot[0], np.int32)
         spot_id = spot[1]
+
         is_occ = False
-
         for box in boxes:
-            cx = int((box[0]+box[2])/2)
-            cy = int((box[1]+box[3])/2)
-
-            if cv2.pointPolygonTest(polygon, (cx,cy), False) >= 0:
+            cx = int((box[0] + box[2]) / 2)
+            cy = int((box[1] + box[3]) / 2)
+            if cv2.pointPolygonTest(polygon, (cx, cy), False) >= 0:
                 is_occ = True
                 break
 
         if is_occ:
             occupied.append(spot_id)
-            cv2.polylines(vis, [polygon], isClosed=True, color=(0, 0, 255), thickness=2)
+            color = (0,0,255)
         else:
             free.append(spot_id)
-            cv2.polylines(vis, [polygon], isClosed=True, color=(0, 255, 0), thickness=2)
+            color = (0,255,0)
 
+        cv2.polylines(vis, [polygon], True, color, 2)
+        cx = int(np.mean(polygon[:,0]))
+        cy = int(np.mean(polygon[:,1]))
+        cv2.putText(vis, spot_id, (cx,cy),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
+    # Draw car boxes
     for box in boxes:
-        cv2.rectangle(vis, (box[0], box[1]), (box[2], box[3]), (255, 0, 0), 2)
-    cv2.imwrite("debug_labeled.jpg", vis)
+        cv2.rectangle(vis, (box[0],box[1]), (box[2],box[3]), (255,0,0), 2)
+
+    cv2.imwrite("debug/labeled.jpg", vis)
+
     return {
+        "lot": lot_id,
         "occupied": occupied,
         "free": free,
         "total_detected": len(boxes),
-        "debug_image": "debug_labeled.jpg"
+        "debug_image": "debug/labeled.jpg"
     }
 # To run this: python -m uvicorn main:app --reload
