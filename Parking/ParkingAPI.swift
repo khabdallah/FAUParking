@@ -7,6 +7,26 @@
 
 import Foundation
 
+enum ParkingAPIError: LocalizedError {
+    case networkUnavailable(underlying: Error)
+    case serverError(statusCode: Int)
+    case invalidResponse
+    case decodingFailed(underlying: Error)
+
+    var errorDescription: String? {
+        switch self {
+        case .networkUnavailable:
+            return "Unable to reach the server. Check your connection and try again."
+        case .serverError(let code):
+            return "Server error (\(code)). Please try again later."
+        case .invalidResponse:
+            return "Invalid response from server."
+        case .decodingFailed:
+            return "Data from the server could not be read. Please try again later."
+        }
+    }
+}
+
 final class ParkingAPI {
     static let shared = ParkingAPI()
 
@@ -25,14 +45,26 @@ final class ParkingAPI {
     private func get<T: Decodable>(_ path: String) async throws -> T {
         let url = baseURL.appendingPathComponent(path)
 
-        let (data, response) = try await URLSession.shared.data(from: url)
-
-        guard let http = response as? HTTPURLResponse,
-              (200..<300).contains(http.statusCode) else {
-            throw URLError(.badServerResponse)
+        let data: Data
+        let response: URLResponse
+        do {
+            (data, response) = try await URLSession.shared.data(from: url)
+        } catch {
+            throw ParkingAPIError.networkUnavailable(underlying: error)
         }
 
-        return try decoder.decode(T.self, from: data)
+        guard let http = response as? HTTPURLResponse else {
+            throw ParkingAPIError.invalidResponse
+        }
+        guard (200..<300).contains(http.statusCode) else {
+            throw ParkingAPIError.serverError(statusCode: http.statusCode)
+        }
+
+        do {
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            throw ParkingAPIError.decodingFailed(underlying: error)
+        }
     }
 
     // MARK: - Public API

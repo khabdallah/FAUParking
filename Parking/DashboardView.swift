@@ -86,11 +86,19 @@ struct DashboardView: View {
                     }
 
                     if let error = spotsViewModel.errorMessage {
-                        Text(error)
-                            .foregroundColor(.red)
-                            .font(.footnote)
-                            .padding(.top, 4)
-                            .transition(.opacity)
+                        VStack(spacing: 8) {
+                            Text(error)
+                                .foregroundColor(.red)
+                                .font(.footnote)
+                                .multilineTextAlignment(.center)
+                            Button("Retry") {
+                                Task { await spotsViewModel.load() }
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 8)
+                        .transition(.opacity)
                     }
                 }
                 .padding(.vertical, 8)
