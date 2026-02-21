@@ -9,7 +9,7 @@ from roboflow import Roboflow
 ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY", "crcxvzrMUhqJYcyMcpW8")
 WORKSPACE = "drone-parking-management-system"
 PROJECT = "drone-parking-detection"
-MODEL_VERSION = 3
+MODEL_VERSION = 4
 
 _model = None
 
@@ -41,7 +41,7 @@ def preprocess(image):
     return cv2.cvtColor(enhanced, cv2.COLOR_LAB2BGR)
 
 
-def detect_cars(image, confidence=40, overlap=30):
+def detect_cars(image, confidence=20, overlap=30):
     """Run Roboflow detection on a cv2 image.
 
     Args:
@@ -52,7 +52,6 @@ def detect_cars(image, confidence=40, overlap=30):
     Returns list of (x1, y1, x2, y2, confidence) tuples.
     """
     model = _get_model()
-    image = preprocess(image)
 
     # Roboflow SDK needs a file path, so write to a temp file
     with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as f:
@@ -89,5 +88,5 @@ if __name__ == "__main__":
     print(f"Image: {image.shape[1]}x{image.shape[0]}")
     boxes = detect_cars(image)
     print(f"Detected {len(boxes)} vehicles:")
-    for i, (x1, y1, x2, y2) in enumerate(boxes):
-        print(f"  [{i}] ({x1}, {y1}) -> ({x2}, {y2})")
+    for i, (x1, y1, x2, y2, conf) in enumerate(boxes):
+        print(f"  [{i}] ({x1}, {y1}) -> ({x2}, {y2}) conf: {conf:.2f}")
