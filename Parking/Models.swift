@@ -9,13 +9,19 @@ import Foundation
 
 // MARK: - Backend models
 
-struct Lot: Identifiable, Codable {
+struct Lot: Identifiable, Codable, Hashable {
     let id: String        // maps from lot_id
     let name: String      // maps from lot_name
+    let address: String?  // maps from lot_address
+    let latitude: Double?
+    let longitude: Double?
 
     enum CodingKeys: String, CodingKey {
         case id = "lot_id"
         case name = "lot_name"
+        case address = "lot_address"
+        case latitude
+        case longitude
     }
 }
 

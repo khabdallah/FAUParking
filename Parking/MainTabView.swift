@@ -25,6 +25,14 @@ struct MainTabView: View {
                     Label("Spots", systemImage: "parkingsign.circle")
                 }
 
+            NavigationStack {
+                LotMapView()
+                    .environmentObject(spotsViewModel)
+            }
+            .tabItem {
+                Label("Map", systemImage: "map")
+            }
+
             DronesListView(drones: MockData.drones)
                 .tabItem {
                     Label("Drones", systemImage: "airplane.circle")

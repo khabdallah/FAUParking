@@ -13,6 +13,7 @@ final class SpotsViewModel: ObservableObject {
     /// How often to refresh parking data while the app is in the foreground (seconds).
     static let refreshInterval: TimeInterval = 30
 
+    @Published var lots: [Lot] = []
     @Published var spots: [ParkingSpot] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
@@ -46,6 +47,7 @@ final class SpotsViewModel: ObservableObject {
                 return ParkingSpot(space: space, lot: lot)
             }
 
+            self.lots = lots
             spots = mapped
         } catch {
             if !silent, !(error is CancellationError) {
