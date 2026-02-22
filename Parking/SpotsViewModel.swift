@@ -10,16 +10,30 @@ import Combine
 
 @MainActor
 final class SpotsViewModel: ObservableObject {
+    /// How often to refresh parking data while the app is in the foreground (seconds).
+    static let refreshInterval: TimeInterval = 30
+
     @Published var spots: [ParkingSpot] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    func load() async {
-        // Avoid double-load
-        if isLoading { return }
+    private var refreshTask: Task<Void, Never>?
+    private var isBackgroundRefreshing = false
 
-        isLoading = true
-        errorMessage = nil
+    func load(silent: Bool = false) async {
+        if silent {
+            if isLoading || isBackgroundRefreshing { return }
+            isBackgroundRefreshing = true
+        } else {
+            if isLoading { return }
+            isLoading = true
+            errorMessage = nil
+        }
+
+        defer {
+            if silent { isBackgroundRefreshing = false }
+            else { isLoading = false }
+        }
 
         do {
             let lots = try await ParkingAPI.shared.fetchLots()
@@ -34,10 +48,29 @@ final class SpotsViewModel: ObservableObject {
 
             spots = mapped
         } catch {
-            errorMessage = (error as? ParkingAPIError)?.errorDescription ?? (error as? LocalizedError)?.errorDescription ?? "Failed to load parking data."
+            if !silent, !(error is CancellationError) {
+                if let urlError = error as? URLError, urlError.code == .cancelled { return }
+                errorMessage = (error as? ParkingAPIError)?.errorDescription ?? (error as? LocalizedError)?.errorDescription ?? "Failed to load parking data."
+            }
         }
+    }
 
-        isLoading = false
+    /// Start periodically refreshing spots while the app is open. Call from the root view when scene becomes active.
+    func startPeriodicRefresh() {
+        guard refreshTask == nil else { return }
+        refreshTask = Task { [interval = Self.refreshInterval] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
+                guard !Task.isCancelled else { break }
+                await load(silent: true)
+            }
+        }
+    }
+
+    /// Stop periodic refresh (e.g. when app goes to background). Call from the root view when scene becomes inactive.
+    func stopPeriodicRefresh() {
+        refreshTask?.cancel()
+        refreshTask = nil
     }
 
     var freeSpotsCount: Int {

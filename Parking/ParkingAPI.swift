@@ -35,11 +35,18 @@ final class ParkingAPI {
     private let baseURL = URL(string: "https://parking.2759359719sw.workers.dev")!
 
     private let decoder: JSONDecoder
+    private let session: URLSession
 
     private init() {
         let d = JSONDecoder()
         d.dateDecodingStrategy = .iso8601
         decoder = d
+
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 30
+        config.timeoutIntervalForResource = 60
+        config.waitsForConnectivity = true
+        session = URLSession(configuration: config)
     }
 
     private func get<T: Decodable>(_ path: String) async throws -> T {
@@ -48,8 +55,11 @@ final class ParkingAPI {
         let data: Data
         let response: URLResponse
         do {
-            (data, response) = try await URLSession.shared.data(from: url)
+            (data, response) = try await session.data(from: url)
         } catch {
+            // Don't show "Unable to reach server" for user/system cancellation (e.g. pull-to-refresh dismissed)
+            if error is CancellationError { throw error }
+            if let urlError = error as? URLError, urlError.code == .cancelled { throw error }
             throw ParkingAPIError.networkUnavailable(underlying: error)
         }
 

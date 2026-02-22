@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var spotsViewModel = SpotsViewModel()
 
     var body: some View {
@@ -36,6 +37,17 @@ struct MainTabView: View {
         }
         .task {
             await spotsViewModel.load()
+            spotsViewModel.startPeriodicRefresh()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            switch newPhase {
+            case .active:
+                spotsViewModel.startPeriodicRefresh()
+            case .background, .inactive:
+                spotsViewModel.stopPeriodicRefresh()
+            @unknown default:
+                break
+            }
         }
     }
 }
