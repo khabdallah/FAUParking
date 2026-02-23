@@ -44,6 +44,19 @@ def draw_visualization(image, parking_data, occupancy_result, boxes):
         x1, y1, x2, y2 = int(box[0]), int(box[1]), int(box[2]), int(box[3])
         cv2.rectangle(vis, (x1, y1), (x2, y2), (255, 0, 0), 2)
 
+        if len(box) > 4:
+            conf = box[4]
+            cv2.putText(
+                vis,
+                f"{conf:.2f}",
+                (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (255, 0, 0),
+                1,
+                cv2.LINE_AA,
+            )
+
     return vis
 
 
@@ -92,7 +105,7 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python vizualize_lot.py <image_path> [lot_id]")
+        print("Usage: python visualize_lot.py <image_path> [lot_id]")
         sys.exit(1)
 
     image_path = sys.argv[1]
