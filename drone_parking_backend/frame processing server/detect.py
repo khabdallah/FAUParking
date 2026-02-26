@@ -1,6 +1,5 @@
 import os
 import sys
-import tempfile
 import cv2
 import numpy as np
 from roboflow import Roboflow
@@ -65,15 +64,8 @@ def detect_cars(image, confidence=30, overlap=30, use_preprocess=True):
 
     model = _get_model()
 
-    # Roboflow SDK needs a file path, so write to a temp file
-    with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as f:
-        tmp_path = f.name
-        cv2.imwrite(tmp_path, image)
-
-    try:
-        pred = model.predict(tmp_path, confidence=confidence, overlap=overlap).json()
-    finally:
-        os.unlink(tmp_path)
+    # Roboflow SDK can take a numpy array directly, avoiding disk I/O
+    pred = model.predict(image, confidence=confidence, overlap=overlap).json()
 
     boxes = []
     for d in pred["predictions"]:
