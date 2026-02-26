@@ -3,22 +3,34 @@ import numpy as np
 import sys
 
 
-def align_to_master(master, new_img):
-    """Align a new drone image to the master reference using SIFT + FLANN.
+def precompute_master(master_img):
+    """Pre-calculate SIFT keypoints and descriptors for a master image."""
+    gray = cv2.cvtColor(master_img, cv2.COLOR_BGR2GRAY)
+    sift = cv2.SIFT_create()
+    kp, des = sift.detectAndCompute(gray, None)
+    return kp, des
 
-    Returns (result_dict) where result_dict contains:
-        aligned: the warped image (or original if failed)
-        homography: the 3x3 matrix (or None if failed)
-        keypoints_master: number of SIFT keypoints in master
-        keypoints_live: number of SIFT keypoints in new image
-        good_matches: number of matches after Lowe's ratio test
-        inliers: number of RANSAC inliers (0 if failed)
+
+def align_to_master(master, new_img, master_kp=None, master_des=None):
+    """Align a new drone image to the master reference using SIFT + FLANN.
+    
+    Args:
+        master: the master image BGR array
+        new_img: the live drone image BGR array
+        master_kp: (optional) precompute_master keypoints
+        master_des: (optional) precompute_master descriptors
     """
-    gray1 = cv2.cvtColor(master, cv2.COLOR_BGR2GRAY)
     gray2 = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
 
     sift = cv2.SIFT_create()
-    kp1, des1 = sift.detectAndCompute(gray1, None)
+    
+    # Use precomputed master data if provided, otherwise compute it now
+    if master_kp is None or master_des is None:
+        gray1 = cv2.cvtColor(master, cv2.COLOR_BGR2GRAY)
+        kp1, des1 = sift.detectAndCompute(gray1, None)
+    else:
+        kp1, des1 = master_kp, master_des
+        
     kp2, des2 = sift.detectAndCompute(gray2, None)
 
     result = {

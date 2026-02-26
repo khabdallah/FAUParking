@@ -3,10 +3,15 @@ import numpy as np
 import os
 import sys
 
-from align import align_to_master
+from align import align_to_master, precompute_master
 from config import load_lot
 from detect import detect_cars
 from occupancy import check_occupancy
+
+
+# Global cache to store precomputed alignment data for each lot
+# Format: { lot_id: (master_kp, master_des) }
+MASTER_CACHE = {}
 
 
 def draw_visualization(image, parking_data, occupancy_result, boxes):
@@ -75,7 +80,16 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
         return
 
     print("Aligning image...")
-    align_result = align_to_master(master_img, image)
+    
+    # Get or compute cached master features
+    if lot_id not in MASTER_CACHE:
+        print(f"Precomputing master features for lot {lot_id}...")
+        kp, des = precompute_master(master_img)
+        MASTER_CACHE[lot_id] = (kp, des)
+    
+    master_kp, master_des = MASTER_CACHE[lot_id]
+    
+    align_result = align_to_master(master_img, image, master_kp=master_kp, master_des=master_des)
     aligned = align_result["aligned"]
 
     if align_result["homography"] is None:
