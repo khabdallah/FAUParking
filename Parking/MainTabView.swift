@@ -32,16 +32,6 @@ struct MainTabView: View {
             .tabItem {
                 Label("Map", systemImage: "map")
             }
-
-            DronesListView(drones: MockData.drones)
-                .tabItem {
-                    Label("Drones", systemImage: "airplane.circle")
-                }
-
-            AlertsListView(alerts: MockData.alerts)
-                .tabItem {
-                    Label("Alerts", systemImage: "exclamationmark.triangle")
-                }
         }
         .task {
             await spotsViewModel.load()
