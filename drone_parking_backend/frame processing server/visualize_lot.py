@@ -65,9 +65,38 @@ def draw_visualization(image, parking_data, occupancy_result, boxes):
     return vis
 
 
+def promote_master(lot_id, aligned_image, inliers, inlier_threshold=140):
+    """Saves the current aligned frame as the new master if it matches exceptionally well.
+    
+    Since the image is already 'aligned', it perfectly matches the existing 
+    coordinates in parking.json.
+    """
+    if inliers > inlier_threshold:
+        lot_path = os.path.join("lots", lot_id)
+        if not os.path.exists(lot_path):
+            return False
+            
+        master_path = os.path.join(lot_path, "master.jpg")
+        backup_path = os.path.join(lot_path, "master_backup.jpg")
+        
+        # Backup original if not already backed up
+        if os.path.exists(master_path) and not os.path.exists(backup_path):
+            os.rename(master_path, backup_path)
+            
+        cv2.imwrite(master_path, aligned_image)
+        print(f"🌟 Master image for lot {lot_id} PROMOTED (Inliers: {inliers})")
+        
+        # Clear cache so next run uses the new master
+        if lot_id in MASTER_CACHE:
+            del MASTER_CACHE[lot_id]
+        return True
+    return False
+
+
 def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
     """Full visualization pipeline."""
     print(f"Loading lot: {lot_id}")
+    print(f"Image: {image_path}")
 
     master_img, parking_data, err = load_lot(lot_id)
     if err:
@@ -91,10 +120,15 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
     
     align_result = align_to_master(master_img, image, master_kp=master_kp, master_des=master_des)
     aligned = align_result["aligned"]
+    inliers = align_result["inliers"]
 
     if align_result["homography"] is None:
         print("⚠️ Alignment failed — using original image")
         aligned = image
+    else:
+        print(f"Alignment successful. Inliers: {inliers}")
+        # Check if we should promote this frame to be the new master
+        promote_master(lot_id, aligned, inliers)
 
     print("Running detection...")
     boxes = detect_cars(aligned)
@@ -117,49 +151,14 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
 
     return vis
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python visualize_lot.py <image_path> [lot_id]")
         sys.exit(1)
 
     image_path = sys.argv[1]
-
-    # Default lot = "1"
     lot_id = sys.argv[2] if len(sys.argv) > 2 else "1"
 
-    print(f"Using lot: {lot_id}")
-    print(f"Image: {image_path}")
-
-    # Load lot config
-    master_img, parking_data, err = load_lot(lot_id)
-    if err:
-        print(err)
-        sys.exit(1)
-
-    image = cv2.imread(image_path)
-    if image is None:
-        print(f"Could not load image: {image_path}")
-        sys.exit(1)
-
-    # Align
-    align_result = align_to_master(master_img, image)
-    aligned = align_result["aligned"]
-
-    # Detect
-    boxes = detect_cars(aligned)
-    print(f"Detected {len(boxes)} vehicles")
-    for i, box in enumerate(boxes):
-        print(f"  Box {i}: {box}")
-
-    # Occupancy
-    occupancy_result = check_occupancy(boxes, parking_data)
-    print("Occupied spots:")
-    for spot in occupancy_result["occupied"]:
-        print(f"  {spot['id']} (conf: {spot['confidence']:.2f})")
-
-    # Draw
-    vis = draw_visualization(aligned, parking_data, occupancy_result, boxes)
-
-    out_path = "debug_visualized.jpg"
-    cv2.imwrite(out_path, vis)
-    print(f"Saved: {out_path}")
+    # Use the full pipeline function
+    visualize_lot(lot_id, image_path)

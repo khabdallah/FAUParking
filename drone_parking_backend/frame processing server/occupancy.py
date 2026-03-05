@@ -19,11 +19,8 @@ def check_occupancy(boxes, parking_data, overlap_threshold=0.3):
     free = []
 
     for polygon, spot_id in parking_data:
-        # 1. Prepare spot mask and calculate its area
-        # We use a bounding box approach to avoid needing the full image dimensions
         px, py, pw, ph = cv2.boundingRect(polygon)
         
-        # Guard against zero-size polygons
         if pw <= 0 or ph <= 0:
             free.append({"id": spot_id, "confidence": 0.0})
             continue
@@ -40,14 +37,12 @@ def check_occupancy(boxes, parking_data, overlap_threshold=0.3):
             bx1, by1, bx2, by2 = int(box[0]), int(box[1]), int(box[2]), int(box[3])
             conf = box[4] if len(box) > 4 else 0.0
 
-            # 2. Find intersection between detections and the spot's bounding box
             ix1 = max(0, bx1 - px)
             iy1 = max(0, by1 - py)
             ix2 = min(pw, bx2 - px)
             iy2 = min(ph, by2 - py)
 
             if ix2 > ix1 and iy2 > iy1:
-                # Calculate how much of the car's box overlaps with the spot polygon
                 intersection_mask = spot_mask[iy1:iy2, ix1:ix2]
                 overlap_area = np.count_nonzero(intersection_mask)
                 overlap_ratio = overlap_area / spot_area
@@ -68,14 +63,12 @@ def check_occupancy(boxes, parking_data, overlap_threshold=0.3):
 
 
 if __name__ == "__main__":
-    # Quick test with fake data
     test_polygon = np.array([[100, 100], [200, 100], [200, 200], [100, 200]], np.int32)
     parking_data = [
         (test_polygon, "A1"),
         (np.array([[300, 300], [400, 300], [400, 400], [300, 400]], np.int32), "A2"),
     ]
 
-    # Box center (150, 150) is inside A1, nothing inside A2
     boxes = [(120, 120, 180, 180, 0.95)]
 
     result = check_occupancy(boxes, parking_data)
