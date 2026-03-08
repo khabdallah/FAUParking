@@ -85,7 +85,7 @@ struct SpotDetailView: View {
                 .cornerRadius(16)
 
                 // Future analytics placeholder
-                VStack(alignment: .leading, spacing: 8) {
+                /*VStack(alignment: .leading, spacing: 8) {
                     Text("Analytics (Future)")
                         .font(.headline)
 
@@ -100,7 +100,7 @@ struct SpotDetailView: View {
                         Text("• Linked drone passes over this spot")
                     }
                     .font(.subheadline)
-                }
+                }*/
                 .padding()
                 .background(Color(.secondarySystemBackground))
                 .cornerRadius(16)
