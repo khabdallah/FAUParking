@@ -123,10 +123,14 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
     inliers = align_result["inliers"]
 
     if align_result["homography"] is None:
-        print("⚠️ Alignment failed — using original image")
+        print("⚠️ Alignment failed — using original image (All fallbacks exhausted)")
         aligned = image
     else:
-        print(f"Alignment successful. Inliers: {inliers}")
+        fallback = align_result.get("fallback_used", "None")
+        if fallback == "None":
+            print(f"Alignment successful (Standard Methods). Inliers: {inliers}")
+        else:
+            print(f"Alignment successful via Fallback ({fallback}). Inliers: {inliers}")
         # Check if we should promote this frame to be the new master
         promote_master(lot_id, aligned, inliers)
 
