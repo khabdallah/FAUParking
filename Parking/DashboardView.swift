@@ -12,6 +12,7 @@ struct DashboardView: View {
 
     @State private var selectedCategory: SpaceCategory?
     @State private var selectedLotId: String?
+    @State private var selectedSpotForInfo: ParkingSpot?
 
     var body: some View {
         NavigationStack {
@@ -24,7 +25,10 @@ struct DashboardView: View {
                         Lot2DView(
                             lotName: lot.name,
                             spots: filteredSpots,
-                            selectedCategory: selectedCategory
+                            selectedCategory: selectedCategory,
+                            onSpotTap: { spot in
+                                selectedSpotForInfo = spot
+                            }
                         )
                         .padding(.horizontal)
                     } else {
@@ -105,7 +109,11 @@ struct DashboardView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
-                        HStack(spacing: 8) {
+                        LazyVGrid(
+                            columns: [GridItem(.adaptive(minimum: 104), spacing: 8)],
+                            alignment: .leading,
+                            spacing: 8
+                        ) {
                             CategoryChip(
                                 title: "All",
                                 count: freeCount(for: nil),
@@ -137,7 +145,16 @@ struct DashboardView: View {
                             ) {
                                 selectedCategory = .green
                             }
+
+                            CategoryChip(
+                                title: "Red",
+                                count: freeCount(for: .red),
+                                isSelected: selectedCategory == .red
+                            ) {
+                                selectedCategory = .red
+                            }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
                         Text(selectedCategoryDescription)
                             .font(.caption)
@@ -175,6 +192,9 @@ struct DashboardView: View {
                 await spotsViewModel.load()
             }
             .navigationTitle("Dashboard")
+            .sheet(item: $selectedSpotForInfo) { spot in
+                SpotDashboardInfoSheet(spot: spot)
+            }
         }
     }
 }
@@ -226,6 +246,8 @@ private extension DashboardView {
             return "Showing free blue-permit spaces."
         case .some(.green):
             return "Showing free green-permit spaces."
+        case .some(.red):
+            return "Showing free red-permit spaces."
         }
     }
 }
@@ -239,19 +261,26 @@ struct CategoryChip: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 4) {
+                Spacer(minLength: 0)
                 Text(title)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.82)
+                    .layoutPriority(1)
                 Text("\(count)")
                     .font(.caption)
+                    .lineLimit(1)
                     .padding(.horizontal, 4)
                     .padding(.vertical, 2)
                     .background(.ultraThinMaterial)
                     .clipShape(Capsule())
+                Spacer(minLength: 0)
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
             .background(isSelected ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08))
             .foregroundStyle(isSelected ? Color.accentColor : .primary)
             .clipShape(Capsule())
+            .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
     }
@@ -281,12 +310,82 @@ struct StatCard: View {
     }
 }
 
+// MARK: - Spot info (dashboard tap)
+
+private struct SpotDashboardInfoSheet: View {
+    let spot: ParkingSpot
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Spot \(spot.name)")
+                        .font(.title3.weight(.semibold))
+                    Text(spot.lotName)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button("Done") {
+                    dismiss()
+                }
+                .font(.body.weight(.semibold))
+            }
+
+            Divider()
+
+            HStack {
+                Text("Permit")
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text(spot.category.rawValue.capitalized)
+            }
+            .font(.subheadline)
+
+            HStack {
+                Text("Status")
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text(spot.status.rawValue)
+                    .fontWeight(.medium)
+            }
+            .font(.subheadline)
+
+            HStack {
+                Text("Last updated")
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text(spot.lastUpdated.formatted(date: .abbreviated, time: .shortened))
+            }
+            .font(.subheadline)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .presentationDetents([.height(280)])
+        .presentationDragIndicator(.visible)
+    }
+}
+
 // MARK: - 2D lot layout
 
 struct Lot2DView: View {
     let lotName: String
     let spots: [ParkingSpot]
     let selectedCategory: SpaceCategory?
+    let onSpotTap: (ParkingSpot) -> Void
+
+    init(
+        lotName: String,
+        spots: [ParkingSpot],
+        selectedCategory: SpaceCategory?,
+        onSpotTap: @escaping (ParkingSpot) -> Void = { _ in }
+    ) {
+        self.lotName = lotName
+        self.spots = spots
+        self.selectedCategory = selectedCategory
+        self.onSpotTap = onSpotTap
+    }
 
     private struct SpotCoordinate: Hashable {
         let row: Int
@@ -460,15 +559,21 @@ struct Lot2DView: View {
             isDimmed = false
         }
 
-        return RoundedRectangle(cornerRadius: 4)
-            .fill(statusColor(for: spot.status))
-            .overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(categoryColor(for: spot.category), lineWidth: 1)
-            )
-            .opacity(isDimmed ? 0.25 : 1.0)
-            .frame(width: 22, height: 32)
-            .accessibilityLabel("\(spot.name), \(spot.status.rawValue)")
+        return Button {
+            onSpotTap(spot)
+        } label: {
+            RoundedRectangle(cornerRadius: 4)
+                .fill(statusColor(for: spot.status))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(categoryColor(for: spot.category), lineWidth: 1)
+                )
+                .opacity(isDimmed ? 0.25 : 1.0)
+                .frame(width: 22, height: 32)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(spot.name), \(spot.status.rawValue)")
+        .accessibilityHint("Shows spot details")
     }
 
     private func legendItem(color: Color, label: String) -> some View {
@@ -503,6 +608,8 @@ struct Lot2DView: View {
             return Color.blue.opacity(0.9)
         case .green:
             return Color.green.opacity(0.9)
+        case .red:
+            return Color.red.opacity(0.9)
         }
     }
 }

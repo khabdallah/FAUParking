@@ -29,7 +29,7 @@ enum SpaceCategory: String, Codable {
     case white
     case blue
     case green
-    // add more if needed
+    case red
 }
 
 struct Space: Identifiable, Codable {
