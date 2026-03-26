@@ -21,7 +21,7 @@ def check_occupancy(boxes, parking_data, overlap_threshold=0.3):
     for polygon, spot_id in parking_data:
         px, py, pw, ph = cv2.boundingRect(polygon)
         
-        if pw <= 0 or ph <= 0:
+        if pw <= 1 or ph <= 1 or cv2.contourArea(polygon) < 5:
             free.append({"id": spot_id, "confidence": 0.0})
             continue
 
@@ -29,6 +29,10 @@ def check_occupancy(boxes, parking_data, overlap_threshold=0.3):
         cv2.fillPoly(spot_mask, [polygon - [px, py]], 255)
         spot_area = np.count_nonzero(spot_mask)
 
+        if spot_area == 0:
+            free.append({"id": spot_id, "confidence": 0.0})
+            continue
+            
         best_conf = 0.0
         max_overlap = 0.0
         is_occupied = False
