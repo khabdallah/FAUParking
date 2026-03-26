@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from detect import preprocess, detect_cars
-
+""" Passes dummy image matrices through the pipeline """
 def test_preprocess_keeps_shape_and_type():
     img = np.random.randint(0, 256, (100, 100, 3), dtype=np.uint8)
     out = preprocess(img)

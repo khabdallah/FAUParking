@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from occupancy import check_occupancy
-
+""" Tests for bounding boxes covering single parking spots vs overlapping multiple spots """
 def test_check_occupancy_basic():
     test_polygon = np.array([[100, 100], [200, 100], [200, 200], [100, 200]], np.int32)
     parking_data = [

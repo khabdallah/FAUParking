@@ -2,7 +2,8 @@ import pytest
 import cv2
 import numpy as np
 from align import align_to_master
-
+""" Generates a synethtic master frame with sone solid shapes, and then creates a live drone frame by rotating it 5 degrees from translating
+the X and Y coordinates. """
 def test_align_to_master_synthetic():
     master = np.zeros((200, 200, 3), dtype=np.uint8)
     
