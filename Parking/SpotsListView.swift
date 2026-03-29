@@ -34,9 +34,18 @@ struct SpotsListView: View {
 
     var body: some View {
         NavigationStack {
-            Group {
+            ZStack {
+                LinearGradient(
+                    colors: [Color.accentColor.opacity(0.14), Color.blue.opacity(0.08), Color.clear],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
                 if viewModel.isLoading && viewModel.spots.isEmpty {
                     ProgressView("Loading spots…")
+                        .padding()
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
                         .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } else if let error = viewModel.errorMessage, viewModel.spots.isEmpty {
                     VStack(spacing: 12) {
@@ -45,6 +54,8 @@ struct SpotsListView: View {
                             Task { await viewModel.load() }
                         }
                     }
+                    .padding()
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
                     .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } else if filteredSpots.isEmpty {
                     VStack(spacing: 16) {
@@ -58,6 +69,8 @@ struct SpotsListView: View {
                             statusFilter = nil
                         }
                     }
+                    .padding()
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
                     .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } else {
                     List(filteredSpots) { spot in
@@ -87,12 +100,26 @@ struct SpotsListView: View {
                                     .font(.subheadline)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
-                                    .background(statusColor(spot.status).opacity(0.15))
+                                    .background(statusColor(spot.status).opacity(0.18))
                                     .foregroundColor(statusColor(spot.status))
                                     .cornerRadius(8)
                             }
+                            .padding(.vertical, 4)
+                            .padding(.horizontal, 6)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(.ultraThinMaterial)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(statusColor(spot.status).opacity(0.15), lineWidth: 1)
+                            )
                         }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                     .refreshable {
                         await viewModel.load()
                     }

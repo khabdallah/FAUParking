@@ -113,25 +113,42 @@ struct LotMapView: View {
     }
 
     var body: some View {
-        mainMap
-            .mapStyle(.standard(elevation: .realistic))
-            .onChange(of: lots) { _, newLots in
-                if !newLots.isEmpty {
-                    Task { await geocoder.resolveCoordinates(for: newLots) }
-                }
+        ZStack {
+            LinearGradient(
+                colors: [Color.accentColor.opacity(0.12), Color.blue.opacity(0.08), Color.clear],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            mainMap
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.accentColor.opacity(0.2), lineWidth: 1)
+                )
+                .padding(.horizontal)
+                .padding(.top, 8)
+                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 6)
+        }
+        .mapStyle(.standard(elevation: .realistic))
+        .onChange(of: lots) { _, newLots in
+            if !newLots.isEmpty {
+                Task { await geocoder.resolveCoordinates(for: newLots) }
             }
-            .onChange(of: geocoder.coordinatesByLotId) { _, coords in
-                updateCameraPosition(from: coords)
+        }
+        .onChange(of: geocoder.coordinatesByLotId) { _, coords in
+            updateCameraPosition(from: coords)
+        }
+        .onAppear {
+            if !lots.isEmpty {
+                Task { await geocoder.resolveCoordinates(for: lots) }
             }
-            .onAppear {
-                if !lots.isEmpty {
-                    Task { await geocoder.resolveCoordinates(for: lots) }
-                }
-            }
-            .sheet(item: $selectedLot) { lot in
-                LotPinSheet(lot: lot, spotCount: spotCount(for: lot))
-            }
-            .navigationTitle("Map")
+        }
+        .sheet(item: $selectedLot) { lot in
+            LotPinSheet(lot: lot, spotCount: spotCount(for: lot))
+        }
+        .navigationTitle("Map")
     }
 
     private var mainMap: some View {
@@ -180,6 +197,13 @@ struct LotPinSheet: View {
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                LinearGradient(
+                    colors: [Color.accentColor.opacity(0.16), Color.clear],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

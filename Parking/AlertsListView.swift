@@ -12,8 +12,21 @@ struct AlertsListView: View {
 
     var body: some View {
         NavigationStack {
-            List(alerts.sorted { $0.timestamp > $1.timestamp }) { alert in
-                AlertRow(alert: alert)
+            ZStack {
+                LinearGradient(
+                    colors: [Color.accentColor.opacity(0.14), Color.blue.opacity(0.08), Color.clear],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
+                List(alerts.sorted { $0.timestamp > $1.timestamp }) { alert in
+                    AlertRow(alert: alert)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
             }
             .animation(.easeInOut(duration: 0.25), value: alerts.count)
             .navigationTitle("Alerts")
@@ -34,7 +47,7 @@ struct AlertRow: View {
                     .font(.caption)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(severityColor(alert.severity).opacity(0.15))
+                    .background(severityColor(alert.severity).opacity(0.18))
                     .foregroundColor(severityColor(alert.severity))
                     .cornerRadius(6)
             }
@@ -47,7 +60,16 @@ struct AlertRow: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 6)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(severityColor(alert.severity).opacity(0.15), lineWidth: 1)
+        )
     }
 
     private func severityColor(_ severity: String) -> Color {

@@ -16,175 +16,191 @@ struct DashboardView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        Color.accentColor.opacity(0.14),
+                        Color.blue.opacity(0.08),
+                        Color.clear
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
 
-                    // 2D lot layout / map
-                    if let selectedLotId,
-                       let lot = spotsViewModel.lots.first(where: { $0.id == selectedLotId }) {
-                        Lot2DView(
-                            lotName: lot.name,
-                            spots: filteredSpots,
-                            selectedCategory: selectedCategory,
-                            onSpotTap: { spot in
-                                selectedSpotForInfo = spot
-                            }
-                        )
-                        .padding(.horizontal)
-                    } else {
-                        RoundedRectangle(cornerRadius: 16)
-                            .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [6]))
-                            .frame(height: 220)
-                            .overlay {
-                                VStack(spacing: 8) {
-                                    Image(systemName: "map")
-                                        .font(.system(size: 40))
-                                    Text("Live Map View")
-                                        .font(.headline)
-                                    Text("Select a lot to see its layout.")
-                                        .font(.subheadline)
+                ScrollView {
+                    VStack(spacing: 16) {
+
+                        // 2D lot layout / map
+                        if let selectedLotId,
+                           let lot = spotsViewModel.lots.first(where: { $0.id == selectedLotId }) {
+                            Lot2DView(
+                                lotName: lot.name,
+                                spots: filteredSpots,
+                                selectedCategory: selectedCategory,
+                                onSpotTap: { spot in
+                                    selectedSpotForInfo = spot
+                                }
+                            )
+                            .padding(.horizontal)
+                        } else {
+                            RoundedRectangle(cornerRadius: 16)
+                                .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [6]))
+                                .frame(height: 220)
+                                .overlay {
+                                    VStack(spacing: 8) {
+                                        Image(systemName: "map")
+                                            .font(.system(size: 40))
+                                        Text("Live Map View")
+                                            .font(.headline)
+                                        Text("Select a lot to see its layout.")
+                                            .font(.subheadline)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .padding(.horizontal)
+                        }
+
+                        // Lot filter
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Filter by lot")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+
+                            Menu {
+                                Button("All lots") {
+                                    selectedLotId = nil
+                                }
+
+                                if !spotsViewModel.lots.isEmpty {
+                                    Divider()
+                                }
+
+                                ForEach(spotsViewModel.lots, id: \.id) { lot in
+                                    Button(lot.name) {
+                                        selectedLotId = lot.id
+                                    }
+                                }
+                            } label: {
+                                HStack {
+                                    Text(currentLotDisplayName)
+                                    Spacer()
+                                    Image(systemName: "chevron.up.chevron.down")
+                                        .font(.caption2)
                                         .foregroundStyle(.secondary)
                                 }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(.thinMaterial)
+                                .cornerRadius(12)
                             }
-                            .padding(.horizontal)
-                    }
+                        }
+                        .padding(.horizontal)
 
-                    // Lot filter
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Filter by lot")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                        // Stats
+                        HStack(spacing: 12) {
+                            StatCard(
+                                title: "Free Spots",
+                                value: "\(freeSpotsCount)",
+                                systemImage: "checkmark.circle.fill",
+                                tint: .green
+                            )
 
-                        Menu {
-                            Button("All lots") {
-                                selectedLotId = nil
-                            }
+                            StatCard(
+                                title: "Occupied",
+                                value: "\(occupiedSpotsCount)",
+                                systemImage: "xmark.circle.fill",
+                                tint: .red
+                            )
+                        }
+                        .padding(.horizontal)
+                        .animation(.easeInOut(duration: 0.25), value: freeSpotsCount)
+                        .animation(.easeInOut(duration: 0.25), value: occupiedSpotsCount)
 
-                            if !spotsViewModel.lots.isEmpty {
-                                Divider()
-                            }
+                        // Category filters & summary chips
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Filter by permit type")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
 
-                            ForEach(spotsViewModel.lots, id: \.id) { lot in
-                                Button(lot.name) {
-                                    selectedLotId = lot.id
+                            LazyVGrid(
+                                columns: [GridItem(.adaptive(minimum: 104), spacing: 8)],
+                                alignment: .leading,
+                                spacing: 8
+                            ) {
+                                CategoryChip(
+                                    title: "All",
+                                    count: freeCount(for: nil),
+                                    isSelected: selectedCategory == nil
+                                ) {
+                                    selectedCategory = nil
+                                }
+
+                                CategoryChip(
+                                    title: "White",
+                                    count: freeCount(for: .white),
+                                    isSelected: selectedCategory == .white
+                                ) {
+                                    selectedCategory = .white
+                                }
+
+                                CategoryChip(
+                                    title: "Blue",
+                                    count: freeCount(for: .blue),
+                                    isSelected: selectedCategory == .blue
+                                ) {
+                                    selectedCategory = .blue
+                                }
+
+                                CategoryChip(
+                                    title: "Green",
+                                    count: freeCount(for: .green),
+                                    isSelected: selectedCategory == .green
+                                ) {
+                                    selectedCategory = .green
+                                }
+
+                                CategoryChip(
+                                    title: "Red",
+                                    count: freeCount(for: .red),
+                                    isSelected: selectedCategory == .red
+                                ) {
+                                    selectedCategory = .red
                                 }
                             }
-                        } label: {
-                            HStack {
-                                Text(currentLotDisplayName)
-                                Spacer()
-                                Image(systemName: "chevron.up.chevron.down")
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(.thinMaterial)
-                            .cornerRadius(12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .animation(.spring(response: 0.25, dampingFraction: 0.8), value: selectedCategory)
+
+                            Text(selectedCategoryDescription)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
-                    }
-                    .padding(.horizontal)
+                        .padding(.horizontal)
 
-                    // Stats
-                    HStack(spacing: 12) {
-                        StatCard(
-                            title: "Free Spots",
-                            value: "\(freeSpotsCount)",
-                            systemImage: "checkmark.circle"
-                        )
-
-                        StatCard(
-                            title: "Occupied",
-                            value: "\(occupiedSpotsCount)",
-                            systemImage: "xmark.circle"
-                        )
-                    }
-                    .padding(.horizontal)
-                    .animation(.easeInOut(duration: 0.25), value: freeSpotsCount)
-                    .animation(.easeInOut(duration: 0.25), value: occupiedSpotsCount)
-
-                    // Category filters & summary chips
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Filter by permit type")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-
-                        LazyVGrid(
-                            columns: [GridItem(.adaptive(minimum: 104), spacing: 8)],
-                            alignment: .leading,
-                            spacing: 8
-                        ) {
-                            CategoryChip(
-                                title: "All",
-                                count: freeCount(for: nil),
-                                isSelected: selectedCategory == nil
-                            ) {
-                                selectedCategory = nil
-                            }
-
-                            CategoryChip(
-                                title: "White",
-                                count: freeCount(for: .white),
-                                isSelected: selectedCategory == .white
-                            ) {
-                                selectedCategory = .white
-                            }
-
-                            CategoryChip(
-                                title: "Blue",
-                                count: freeCount(for: .blue),
-                                isSelected: selectedCategory == .blue
-                            ) {
-                                selectedCategory = .blue
-                            }
-
-                            CategoryChip(
-                                title: "Green",
-                                count: freeCount(for: .green),
-                                isSelected: selectedCategory == .green
-                            ) {
-                                selectedCategory = .green
-                            }
-
-                            CategoryChip(
-                                title: "Red",
-                                count: freeCount(for: .red),
-                                isSelected: selectedCategory == .red
-                            ) {
-                                selectedCategory = .red
-                            }
+                        if spotsViewModel.isLoading {
+                            ProgressView("Refreshing data…")
+                                .padding(.top, 8)
+                                .transition(.opacity)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                        Text(selectedCategoryDescription)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.horizontal)
-
-                    if spotsViewModel.isLoading {
-                        ProgressView("Refreshing data…")
+                        if let error = spotsViewModel.errorMessage {
+                            VStack(spacing: 8) {
+                                Text(error)
+                                    .foregroundColor(.red)
+                                    .font(.footnote)
+                                    .multilineTextAlignment(.center)
+                                Button("Retry") {
+                                    Task { await spotsViewModel.load() }
+                                }
+                                .buttonStyle(.bordered)
+                            }
+                            .frame(maxWidth: .infinity)
                             .padding(.top, 8)
                             .transition(.opacity)
-                    }
-
-                    if let error = spotsViewModel.errorMessage {
-                        VStack(spacing: 8) {
-                            Text(error)
-                                .foregroundColor(.red)
-                                .font(.footnote)
-                                .multilineTextAlignment(.center)
-                            Button("Retry") {
-                                Task { await spotsViewModel.load() }
-                            }
-                            .buttonStyle(.bordered)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 8)
-                        .transition(.opacity)
                     }
+                    .padding(.vertical, 8)
                 }
-                .padding(.vertical, 8)
             }
             .animation(.easeInOut(duration: 0.25), value: spotsViewModel.isLoading)
             .animation(.easeInOut(duration: 0.25), value: spotsViewModel.errorMessage ?? "")
@@ -277,10 +293,30 @@ struct CategoryChip: View {
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
-            .background(isSelected ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.08))
+            .background(
+                Capsule()
+                    .fill(
+                        isSelected
+                        ? LinearGradient(
+                            colors: [Color.accentColor.opacity(0.26), Color.blue.opacity(0.2)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        : LinearGradient(
+                            colors: [Color.secondary.opacity(0.08), Color.secondary.opacity(0.05)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            )
             .foregroundStyle(isSelected ? Color.accentColor : .primary)
             .clipShape(Capsule())
+            .overlay(
+                Capsule()
+                    .stroke(isSelected ? Color.accentColor.opacity(0.32) : Color.clear, lineWidth: 1)
+            )
             .frame(maxWidth: .infinity)
+            .shadow(color: isSelected ? Color.accentColor.opacity(0.18) : .clear, radius: 6, x: 0, y: 3)
         }
         .buttonStyle(.plain)
     }
@@ -290,11 +326,13 @@ struct StatCard: View {
     let title: String
     let value: String
     let systemImage: String
+    let tint: Color
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 10) {
             Image(systemName: systemImage)
-                .font(.title2)
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(tint)
             Text(value)
                 .font(.title2)
                 .bold()
@@ -305,8 +343,15 @@ struct StatCard: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(.thinMaterial)
-        .cornerRadius(14)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(tint.opacity(0.16), lineWidth: 1)
+        )
+        .shadow(color: tint.opacity(0.14), radius: 8, x: 0, y: 4)
     }
 }
 
@@ -430,7 +475,13 @@ struct Lot2DView: View {
             }
 
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
+                .fill(
+                    LinearGradient(
+                        colors: [Color(.systemBackground), Color.accentColor.opacity(0.05)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
                 .overlay {
                     if gridSize.rows > 0, gridSize.cols > 0 {
                         VStack(spacing: 0) {
@@ -570,6 +621,7 @@ struct Lot2DView: View {
                 )
                 .opacity(isDimmed ? 0.25 : 1.0)
                 .frame(width: 22, height: 32)
+                .shadow(color: statusColor(for: spot.status).opacity(0.24), radius: 2, x: 0, y: 1)
         }
         .buttonStyle(.plain)
         .accessibilityLabel("\(spot.name), \(spot.status.rawValue)")

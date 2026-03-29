@@ -17,9 +17,20 @@ final class SpotsViewModel: ObservableObject {
     @Published var spots: [ParkingSpot] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var isShowingCachedData = false
+    @Published var cacheTimestamp: Date?
 
     private var refreshTask: Task<Void, Never>?
     private var isBackgroundRefreshing = false
+    private let cacheURL: URL
+
+    init() {
+        let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+        cacheURL = (cachesDirectory ?? FileManager.default.temporaryDirectory)
+            .appendingPathComponent("parking_snapshot_cache.json")
+
+        loadCachedSnapshotOnLaunch()
+    }
 
     func load(silent: Bool = false) async {
         if silent {
@@ -49,9 +60,25 @@ final class SpotsViewModel: ObservableObject {
 
             self.lots = lots
             spots = mapped
+            cacheTimestamp = Date()
+            isShowingCachedData = false
+            errorMessage = nil
+            saveSnapshotToCache(lots: lots, spots: mapped, savedAt: cacheTimestamp ?? Date())
         } catch {
-            if !silent, !(error is CancellationError) {
-                if let urlError = error as? URLError, urlError.code == .cancelled { return }
+            if error is CancellationError { return }
+            if let urlError = error as? URLError, urlError.code == .cancelled { return }
+
+            let didLoadFromCache = loadCachedSnapshotFromDisk()
+            if didLoadFromCache {
+                isShowingCachedData = true
+                if !silent {
+                    if let cacheTimestamp {
+                        errorMessage = "Offline mode: showing cached data from \(cacheTimestamp.formatted(date: .abbreviated, time: .shortened))."
+                    } else {
+                        errorMessage = "Offline mode: showing cached data."
+                    }
+                }
+            } else if !silent {
                 errorMessage = (error as? ParkingAPIError)?.errorDescription ?? (error as? LocalizedError)?.errorDescription ?? "Failed to load parking data."
             }
         }
@@ -81,5 +108,45 @@ final class SpotsViewModel: ObservableObject {
 
     var occupiedSpotsCount: Int {
         spots.filter { $0.status == .occupied }.count
+    }
+}
+
+private extension SpotsViewModel {
+    struct CachedSnapshot: Codable {
+        let lots: [Lot]
+        let spots: [ParkingSpot]
+        let savedAt: Date
+    }
+
+    func loadCachedSnapshotOnLaunch() {
+        let didLoadCache = loadCachedSnapshotFromDisk()
+        if didLoadCache {
+            isShowingCachedData = true
+        }
+    }
+
+    @discardableResult
+    func loadCachedSnapshotFromDisk() -> Bool {
+        guard let data = try? Data(contentsOf: cacheURL) else { return false }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        guard let snapshot = try? decoder.decode(CachedSnapshot.self, from: data) else {
+            return false
+        }
+
+        lots = snapshot.lots
+        spots = snapshot.spots
+        cacheTimestamp = snapshot.savedAt
+        return !(snapshot.lots.isEmpty && snapshot.spots.isEmpty)
+    }
+
+    func saveSnapshotToCache(lots: [Lot], spots: [ParkingSpot], savedAt: Date) {
+        let snapshot = CachedSnapshot(lots: lots, spots: spots, savedAt: savedAt)
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+
+        guard let data = try? encoder.encode(snapshot) else { return }
+        try? data.write(to: cacheURL, options: .atomic)
     }
 }
