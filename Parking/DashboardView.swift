@@ -61,38 +61,91 @@ struct DashboardView: View {
                                 .padding(.horizontal)
                         }
 
+                        // Favorite lots (quick pick)
+                        if !spotsViewModel.favoriteLotsOrdered.isEmpty {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Favorite lots")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 8) {
+                                        ForEach(spotsViewModel.favoriteLotsOrdered, id: \.id) { lot in
+                                            FavoriteLotChip(
+                                                title: lot.name,
+                                                freeCount: spotsViewModel.freeSpotsCount(forLotId: lot.id),
+                                                isSelected: selectedLotId == lot.id
+                                            ) {
+                                                selectedLotId = lot.id
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+
                         // Lot filter
                         VStack(alignment: .leading, spacing: 6) {
                             Text("Filter by lot")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
 
-                            Menu {
-                                Button("All lots") {
-                                    selectedLotId = nil
-                                }
-
-                                if !spotsViewModel.lots.isEmpty {
-                                    Divider()
-                                }
-
-                                ForEach(spotsViewModel.lots, id: \.id) { lot in
-                                    Button(lot.name) {
-                                        selectedLotId = lot.id
+                            HStack(spacing: 8) {
+                                Menu {
+                                    Button("All lots") {
+                                        selectedLotId = nil
                                     }
+
+                                    if !spotsViewModel.lots.isEmpty {
+                                        Divider()
+                                    }
+
+                                    ForEach(spotsViewModel.lotsOrderedFavoritesFirst, id: \.id) { lot in
+                                        Button {
+                                            selectedLotId = lot.id
+                                        } label: {
+                                            Label {
+                                                Text(lot.name)
+                                            } icon: {
+                                                Image(systemName: spotsViewModel.isFavoriteLot(id: lot.id) ? "star.fill" : "star")
+                                                    .foregroundStyle(spotsViewModel.isFavoriteLot(id: lot.id) ? Color.yellow : Color.secondary.opacity(0.35))
+                                            }
+                                        }
+                                    }
+                                } label: {
+                                    HStack {
+                                        Text(currentLotDisplayName)
+                                        Spacer()
+                                        Image(systemName: "chevron.up.chevron.down")
+                                            .font(.caption2)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                                    .background(.thinMaterial)
+                                    .cornerRadius(12)
                                 }
-                            } label: {
-                                HStack {
-                                    Text(currentLotDisplayName)
-                                    Spacer()
-                                    Image(systemName: "chevron.up.chevron.down")
-                                        .font(.caption2)
-                                        .foregroundStyle(.secondary)
+
+                                if let sid = selectedLotId,
+                                   spotsViewModel.lots.contains(where: { $0.id == sid }) {
+                                    Button {
+                                        spotsViewModel.toggleFavorite(lotId: sid)
+                                    } label: {
+                                        Image(systemName: spotsViewModel.isFavoriteLot(id: sid) ? "star.fill" : "star")
+                                            .font(.body.weight(.semibold))
+                                            .foregroundStyle(spotsViewModel.isFavoriteLot(id: sid) ? Color.yellow : Color.secondary)
+                                            .frame(width: 40, height: 36)
+                                            .background(.thinMaterial)
+                                            .cornerRadius(12)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .accessibilityLabel(
+                                        spotsViewModel.isFavoriteLot(id: sid)
+                                        ? "Remove lot from favorites"
+                                        : "Add lot to favorites"
+                                    )
                                 }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(.thinMaterial)
-                                .cornerRadius(12)
                             }
                         }
                         .padding(.horizontal)
@@ -265,6 +318,43 @@ private extension DashboardView {
         case .some(.red):
             return "Showing free red-permit spaces."
         }
+    }
+}
+
+private struct FavoriteLotChip: View {
+    let title: String
+    let freeCount: Int
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Image(systemName: "star.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.yellow)
+                Text(title)
+                    .lineLimit(1)
+                Text("\(freeCount)")
+                    .font(.caption)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Capsule())
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(
+                Capsule()
+                    .fill(isSelected ? Color.accentColor.opacity(0.22) : Color.secondary.opacity(0.08))
+            )
+            .overlay(
+                Capsule()
+                    .stroke(isSelected ? Color.accentColor.opacity(0.4) : Color.clear, lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(title), \(freeCount) free spaces")
     }
 }
 

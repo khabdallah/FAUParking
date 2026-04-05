@@ -19,9 +19,17 @@ struct SpotsListView: View {
         return 3
     }
 
+    /// Lot names with favorites first (matching dashboard), then alphabetical.
     private var lotNames: [String] {
-        let names = Set(viewModel.spots.map(\.lotName))
-        return names.sorted()
+        let nameSet = Set(viewModel.spots.map(\.lotName))
+        var ordered: [String] = []
+        for lot in viewModel.lotsOrderedFavoritesFirst {
+            if nameSet.contains(lot.name) {
+                ordered.append(lot.name)
+            }
+        }
+        let rest = nameSet.subtracting(ordered).sorted()
+        return ordered + rest
     }
 
     private var filteredSpots: [ParkingSpot] {

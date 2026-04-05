@@ -11,10 +11,13 @@ import Combine
 @MainActor
 final class SpotsViewModel: ObservableObject {
     /// How often to refresh parking data while the app is in the foreground (seconds).
-    static let refreshInterval: TimeInterval = 30
+    static let refreshInterval: TimeInterval = 15
+
+    private static let favoriteLotIdsKey = "favoriteLotIds"
 
     @Published var lots: [Lot] = []
     @Published var spots: [ParkingSpot] = []
+    @Published private(set) var favoriteLotIds: Set<String> = []
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var isShowingCachedData = false
@@ -29,7 +32,48 @@ final class SpotsViewModel: ObservableObject {
         cacheURL = (cachesDirectory ?? FileManager.default.temporaryDirectory)
             .appendingPathComponent("parking_snapshot_cache.json")
 
+        if let stored = UserDefaults.standard.array(forKey: Self.favoriteLotIdsKey) as? [String] {
+            favoriteLotIds = Set(stored)
+        }
+
         loadCachedSnapshotOnLaunch()
+    }
+
+    /// Lots with favorites first, then alphabetical by name.
+    var lotsOrderedFavoritesFirst: [Lot] {
+        lots.sorted { a, b in
+            let fa = favoriteLotIds.contains(a.id)
+            let fb = favoriteLotIds.contains(b.id)
+            if fa != fb { return fa && !fb }
+            return a.name.localizedCaseInsensitiveCompare(b.name) == .orderedAscending
+        }
+    }
+
+    /// Favorites only, alphabetical by name.
+    var favoriteLotsOrdered: [Lot] {
+        lots
+            .filter { favoriteLotIds.contains($0.id) }
+            .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
+
+    func isFavoriteLot(id: String) -> Bool {
+        favoriteLotIds.contains(id)
+    }
+
+    func toggleFavorite(lotId: String) {
+        var next = favoriteLotIds
+        if next.contains(lotId) {
+            next.remove(lotId)
+        } else {
+            next.insert(lotId)
+        }
+        favoriteLotIds = next
+        UserDefaults.standard.set(Array(next), forKey: Self.favoriteLotIdsKey)
+    }
+
+    func freeSpotsCount(forLotId lotId: String) -> Int {
+        guard let lot = lots.first(where: { $0.id == lotId }) else { return 0 }
+        return spots.filter { $0.lotName == lot.name && $0.status == .free }.count
     }
 
     func load(silent: Bool = false) async {
@@ -59,6 +103,12 @@ final class SpotsViewModel: ObservableObject {
             }
 
             self.lots = lots
+            let validLotIds = Set(lots.map(\.id))
+            let prunedFavorites = favoriteLotIds.intersection(validLotIds)
+            if prunedFavorites != favoriteLotIds {
+                favoriteLotIds = prunedFavorites
+                UserDefaults.standard.set(Array(prunedFavorites), forKey: Self.favoriteLotIdsKey)
+            }
             spots = mapped
             cacheTimestamp = Date()
             isShowingCachedData = false
@@ -136,6 +186,12 @@ private extension SpotsViewModel {
         }
 
         lots = snapshot.lots
+        let validLotIds = Set(snapshot.lots.map(\.id))
+        let prunedFavorites = favoriteLotIds.intersection(validLotIds)
+        if prunedFavorites != favoriteLotIds {
+            favoriteLotIds = prunedFavorites
+            UserDefaults.standard.set(Array(prunedFavorites), forKey: Self.favoriteLotIdsKey)
+        }
         spots = snapshot.spots
         cacheTimestamp = snapshot.savedAt
         return !(snapshot.lots.isEmpty && snapshot.spots.isEmpty)

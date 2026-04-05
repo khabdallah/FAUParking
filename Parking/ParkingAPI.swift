@@ -30,7 +30,7 @@ enum ParkingAPIError: LocalizedError {
 final class ParkingAPI {
     static let shared = ParkingAPI()
 
-    // TODO: change to your actual backend base URL
+    
     // e.g. URL(string: "http://127.0.0.1:8000")! when using a tunnel / local network
     private let baseURL = URL(string: "https://parking.2759359719sw.workers.dev")!
 
