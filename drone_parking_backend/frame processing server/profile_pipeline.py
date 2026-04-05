@@ -23,7 +23,7 @@ def measure_pipeline_latency(lot_id, image_path):
     warm_time = time.time() - start_time
     print(f"-> Total Warm Start Time: {warm_time:.3f}s\n")
     
-    print(f"⏱️ CACHE SPEEDUP: {cold_time - warm_time:.3f}s time saved by Master Caching.\n")
+    print(f"⏱ CACHE SPEEDUP: {cold_time - warm_time:.3f}s time saved by Master Caching.\n")
 
 def detailed_cprofile(lot_id, image_path):
     print(f"{'='*50}")
@@ -47,7 +47,7 @@ def detailed_cprofile(lot_id, image_path):
         ps = pstats.Stats(pr, stream=f).sort_stats('cumtime') 
         ps.print_stats()
         
-    print("✅ Full execution trace saved to 'profile_results.txt'")
+    print(" Full execution trace saved to 'profile_results.txt'")
 
 
 if __name__ == "__main__":
