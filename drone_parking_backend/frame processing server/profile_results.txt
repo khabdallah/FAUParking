@@ -1,0 +1,560 @@
+         14009 function calls (14002 primitive calls) in 7.113 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.002    0.002    7.113    7.113 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\visualize_lot.py:96(visualize_lot)
+        1    0.002    0.002    5.948    5.948 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\detect.py:51(detect_cars)
+        1    0.000    0.000    5.917    5.917 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\models\object_detection.py:126(predict)
+        1    0.000    0.000    5.903    5.903 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\api.py:103(post)
+        1    0.000    0.000    5.903    5.903 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\api.py:14(request)
+        1    0.000    0.000    5.903    5.903 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:500(request)
+        1    0.000    0.000    5.902    5.902 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:673(send)
+        1    0.000    0.000    5.902    5.902 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:590(send)
+        1    0.000    0.000    5.901    5.901 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:592(urlopen)
+        1    0.000    0.000    5.901    5.901 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:377(_make_request)
+        1    0.000    0.000    3.834    3.834 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:424(request)
+        2    0.000    0.000    3.834    1.917 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1029(send)
+        2    0.000    0.000    3.834    1.917 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1252(sendall)
+        2    0.000    0.000    3.834    1.917 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1225(send)
+        2    3.834    1.917    3.834    1.917 {method 'write' of '_ssl._SSLSocket' objects}
+        1    0.000    0.000    1.672    1.672 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:540(getresponse)
+        1    0.000    0.000    1.672    1.672 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1386(getresponse)
+        1    0.000    0.000    1.672    1.672 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:324(begin)
+        1    0.000    0.000    1.672    1.672 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:291(_read_status)
+       24    0.000    0.000    1.672    0.070 {method 'readline' of '_io.BufferedReader' objects}
+        1    0.000    0.000    1.672    1.672 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:706(readinto)
+        1    0.000    0.000    1.672    1.672 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1289(recv_into)
+        1    0.000    0.000    1.672    1.672 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1129(read)
+        1    1.672    1.672    1.672    1.672 {method 'read' of '_ssl._SSLSocket' objects}
+        2    0.793    0.397    0.793    0.397 {method 'detectAndCompute' of 'cv2.Feature2D' objects}
+        1    0.000    0.000    0.669    0.669 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\align.py:14(align_to_master)
+        1    0.000    0.000    0.397    0.397 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\align.py:6(precompute_master)
+        1    0.000    0.000    0.394    0.394 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1085(_validate_conn)
+        1    0.000    0.000    0.394    0.394 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:724(connect)
+        1    0.000    0.000    0.361    0.361 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:901(_ssl_wrap_socket_and_match_hostname)
+        1    0.000    0.000    0.361    0.361 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\ssl_.py:413(ssl_wrap_socket)
+        1    0.330    0.330    0.330    0.330 {method 'load_verify_locations' of '_ssl._SSLContext' objects}
+        1    0.002    0.002    0.262    0.262 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\align.py:26(attempt_alignment)
+        1    0.257    0.257    0.257    0.257 {method 'knnMatch' of 'cv2.DescriptorMatcher' objects}
+        2    0.073    0.036    0.073    0.036 {imread}
+        1    0.000    0.000    0.032    0.032 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:198(_new_conn)
+        1    0.000    0.000    0.032    0.032 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\connection.py:27(create_connection)
+        1    0.032    0.032    0.032    0.032 {method 'connect' of '_socket.socket' objects}
+        1    0.000    0.000    0.031    0.031 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\ssl_.py:511(_ssl_wrap_socket_impl)
+        1    0.000    0.000    0.031    0.031 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:449(wrap_socket)
+        1    0.000    0.000    0.031    0.031 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:990(_create)
+        1    0.000    0.000    0.031    0.031 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1365(do_handshake)
+        1    0.031    0.031    0.031    0.031 {method 'do_handshake' of '_ssl._SSLSocket' objects}
+        1    0.003    0.003    0.028    0.028 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\detect.py:27(preprocess)
+        1    0.000    0.000    0.013    0.013 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\config.py:9(load_lot)
+        1    0.010    0.010    0.010    0.010 {imencode}
+        5    0.009    0.002    0.009    0.002 {cvtColor}
+        1    0.009    0.009    0.009    0.009 {imwrite}
+       33    0.008    0.000    0.008    0.000 {built-in method builtins.print}
+        1    0.008    0.008    0.008    0.008 {filter2D}
+        1    0.006    0.006    0.006    0.006 {warpPerspective}
+        1    0.000    0.000    0.006    0.006 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\visualize_lot.py:17(draw_visualization)
+        1    0.004    0.004    0.004    0.004 {split}
+       42    0.004    0.000    0.004    0.000 {putText}
+        1    0.000    0.000    0.003    0.003 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\base64.py:51(b64encode)
+        1    0.003    0.003    0.003    0.003 {built-in method binascii.b2a_base64}
+        1    0.003    0.003    0.003    0.003 {merge}
+        1    0.003    0.003    0.003    0.003 {findHomography}
+        1    0.003    0.003    0.003    0.003 {method 'apply' of 'cv2.CLAHE' objects}
+        1    0.001    0.001    0.002    0.002 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\occupancy.py:5(check_occupancy)
+        1    0.001    0.001    0.001    0.001 {LUT}
+        1    0.000    0.000    0.001    0.001 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:457(prepare_request)
+        1    0.001    0.001    0.001    0.001 {method 'copy' of 'numpy.ndarray' objects}
+        1    0.001    0.001    0.001    0.001 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py:274(load)
+        1    0.000    0.000    0.001    0.001 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:351(prepare)
+7029/7028    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+    69/67    0.001    0.000    0.001    0.000 {method 'encode' of 'str' objects}
+       42    0.000    0.000    0.001    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\numpy\_core\fromnumeric.py:3699(mean)
+      406    0.001    0.000    0.001    0.000 {method 'decode' of 'bytes' objects}
+       42    0.000    0.000    0.001    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\numpy\_core\_methods.py:115(_mean)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:960(getaddrinfo)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\ssl_.py:225(create_urllib3_context)
+        1    0.000    0.000    0.000    0.000 {built-in method _socket.getaddrinfo}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\url.py:367(parse_url)
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\url.py:227(_encode_invalid_chars)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:245(parse_headers)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:494(prepare_body)
+       18    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x00007FFD75C398A0}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:572(prepare_content_length)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:430(__new__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:231(_parse_header_lines)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\request.py:197(body_to_chunks)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\parser.py:56(parsestr)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:136(super_len)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\util.py:7(to_bytes)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:409(prepare_url)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\parser.py:41(parse)
+       21    0.000    0.000    0.000    0.000 {polylines}
+        7    0.000    0.000    0.000    0.000 {built-in method nt._path_exists}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:750(merge_environment_settings)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:423(get_connection_with_tls_context)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:173(feed)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:816(get_environ_proxies)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:178(_call_parse)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:390(__init__)
+       43    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:218(_parsegen)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:290(connection_from_host)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:319(connection_from_context)
+       21    0.000    0.000    0.000    0.000 {fillPoly}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:344(connection_from_pool_key)
+       21    0.000    0.000    0.000    0.000 {rectangle}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:755(should_bypass_proxies)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:207(get_netrc_auth)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:243(_new_pool)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:980(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\weakref.py:585(__call__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:336(build_response)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:175(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1170(_close_pool_connections)
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\structures.py:40(__init__)
+       13    0.000    0.000    0.000    0.000 {method 'join' of 'bytes' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:890(content)
+       61    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\numpy\_core\numeric.py:483(count_nonzero)
+       21    0.000    0.000    0.000    0.000 {built-in method numpy.zeros}
+        8    0.000    0.000    0.000    0.000 <frozen _collections_abc>:979(update)
+       42    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\numpy\_core\_methods.py:73(_count_reduce_items)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:816(generate)
+  325/321    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\url.py:349(_encode_target)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:1231(stream)
+      902    0.000    0.000    0.000    0.000 {built-in method builtins.max}
+      882    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py:299(loads)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:1065(read)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:115(proxy_bypass)
+       61    0.000    0.000    0.000    0.000 {built-in method numpy._core._multiarray_umath.count_nonzero}
+       44    0.000    0.000    0.000    0.000 {built-in method numpy.array}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:340(decode)
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.TextIOWrapper' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:280(cert_verify)
+        7    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:61(merge_setting)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py:2495(getproxies_environment)
+        1    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        7    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:410(putheader)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:178(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:472(_parse_headers)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1322(endheaders)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:351(raw_decode)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1084(_send_output)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:375(close)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:521(cookiejar_from_dict)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1015(close)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:1013(_raw_read)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:501(close)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:240(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py:2741(getproxies)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1361(_real_close)
+       11    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\queue.py:137(put)
+      368    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:124(extract_cookies_to_jar)
+       28    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\_policybase.py:319(header_fetch_parse)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:947(json)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:341(extend)
+       10    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:374(urlparse)
+        7    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1294(putheader)
+       12    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\queue.py:177(get)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:483(prepare_headers)
+        8    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:500(get)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:256(_get_conn)
+      327    0.000    0.000    0.000    0.000 {method 'lower' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:390(putrequest)
+       24    0.000    0.000    0.000    0.000 <frozen _collections_abc>:897(__iter__)
+       28    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\_policybase.py:289(_sanitize_header)
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\url.py:301(_normalize_host)
+       50    0.000    0.000    0.000    0.000 {method 'match' of 're.Pattern' objects}
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:602(get_content_type)
+       12    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:216(init_poolmanager)
+       11    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:221(__init__)
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1228(deepvalues)
+        8    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\enum.py:1596(__or__)
+        7    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:335(to_key_val_list)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:77(proxy_bypass_registry)
+      399    0.000    0.000    0.000    0.000 {built-in method builtins.ord}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\util\prediction.py:496(create_prediction_group)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1138(putrequest)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:610(prepare_cookies)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:828(select_proxy)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1681(extract_cookies)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:140(get_cookie_header)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:258(extract_zipped_paths)
+       22    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\_policybase.py:301(header_source_parse)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:890(default_headers)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1044(_new_conn)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:626(get_content_maintype)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:213(_read_headers)
+        9    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:164(hostname)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:199(__init__)
+       29    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\utils.py:47(_has_surrogates)
+       22    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\enum.py:695(__call__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:489(items)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:523(request_url)
+       21    0.000    0.000    0.000    0.000 {boundingRect}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:722(__init__)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1600(make_cookies)
+        1    0.000    0.000    0.000    0.000 {method 'sum' of 'numpy.ndarray' objects}
+       43    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\structures.py:46(__setitem__)
+       26    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:257(__getitem__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:81(__init__)
+        7    0.000    0.000    0.000    0.000 <frozen _collections_abc>:815(__contains__)
+       10    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:100(_intenum_converter)
+       85    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+       25    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:129(__next__)
+       24    0.000    0.000    0.000    0.000 <frozen abc>:117(__instancecheck__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\models\object_detection.py:475(__generate_url)
+       22    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:306(add)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:621(__init__)
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:535(get_all)
+        3    0.000    0.000    0.000    0.000 {built-in method winreg.QueryValueEx}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\numpy\_core\_methods.py:47(_sum)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:35(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:261(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1357(add_cookie_header)
+        3    0.000    0.000    0.000    0.000 <frozen ntpath>:343(expanduser)
+        2    0.000    0.000    0.000    0.000 {built-in method winreg.OpenKey}
+        1    0.000    0.000    0.000    0.000 {built-in method nt._path_isdir}
+       22    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\threading.py:398(notify)
+      118    0.000    0.000    0.000    0.000 <frozen os>:735(__iter__)
+        7    0.000    0.000    0.000    0.000 {built-in method builtins.next}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:588(prepare_auth)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:956(_fp_read)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:184(close)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\encodings\idna.py:179(encode)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:497(_real_close)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:102(push)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:145(__exit__)
+        5    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:1024(check_header_validity)
+        1    0.000    0.000    0.000    0.000 {built-in method numpy.arange}
+       10    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:205(_hostinfo)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\util\prediction.py:266(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:95(_default_key_normalizer)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:82(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:658(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:504(set_alpn_protocols)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:463(read)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:1008(get_auth_from_url)
+       12    0.000    0.000    0.000    0.000 <frozen os>:786(encodekey)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\response.py:40(assert_header_parsing)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py:2692(getproxies_registry)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:304(makefile)
+        1    0.000    0.000    0.000    0.000 {function socket.close at 0x000001B35FC30A40}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:1145(_normalize_host)
+        3    0.000    0.000    0.000    0.000 <frozen ntpath>:99(join)
+       23    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\structures.py:51(__getitem__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1262(__init__)
+        5    0.000    0.000    0.000    0.000 {method 'settimeout' of '_socket.socket' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:132(__init__)
+        1    0.000    0.000    0.000    0.000 {method '_wrap_socket' of '_ssl._SSLContext' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:454(__exit__)
+       24    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\enum.py:1589(_get_value)
+       25    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:79(readline)
+        9    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\url.py:330(_idna_encode)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:650(requote_uri)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py:22(decode)
+       12    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:119(_coerce_args)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:441(_encode_hostname)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\structures.py:76(copy)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:106(_encode_params)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\retry.py:211(__init__)
+       21    0.000    0.000    0.000    0.000 {contourArea}
+       10    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:1035(_validate_header_part)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:794(close)
+       24    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:890(_error_catcher)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:373(build_connection_pool_key_attributes)
+       22    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\threading.py:318(_is_owned)
+       23    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\threading.py:303(__enter__)
+        7    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:459(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\util\prediction.py:488(json)
+       35    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:76(_urllib3_request_context)
+        1    0.000    0.000    0.000    0.000 {method 'astype' of 'numpy.ndarray' objects}
+       23    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\threading.py:306(__exit__)
+       16    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\util.py:19(to_str)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\queue.py:46(__init__)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        8    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:513(close)
+        5    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\structures.py:57(__iter__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:525(urlunparse)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\url.py:100(__new__)
+        2    0.000    0.000    0.000    0.000 {SIFT_create}
+       13    0.000    0.000    0.000    0.000 {method 'search' of 're.Pattern' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:669(verify_mode)
+        1    0.000    0.000    0.000    0.000 {built-in method _codecs.charmap_decode}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\url.py:263(_remove_path_dot_segments)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:303(helper)
+        1    0.000    0.000    0.000    0.000 {built-in method today}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:466(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:243(get_payload)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:786(release_conn)
+       44    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+       22    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\enum.py:1156(__new__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:399(get)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:764(get_proxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:630(prepare_hooks)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:867(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\connection.py:93(_set_socket_options)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:425(_close_conn)
+       31    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\structures.py:58(<genexpr>)
+       23    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\queue.py:305(_qsize)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:875(quote)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\typing.py:1374(__instancecheck__)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:281(clear)
+       52    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:294(_put_conn)
+       42    0.000    0.000    0.000    0.000 {built-in method numpy.lib.array_utils.normalize_axis_index}
+        5    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:169(host)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:139(__init__)
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:109(__init__)
+       22    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:517(set_raw)
+        6    0.000    0.000    0.000    0.000 {method 'subn' of 're.Pattern' objects}
+        1    0.000    0.000    0.000    0.000 {method 'close' of '_io.BufferedReader' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:346(_get_timeout)
+       42    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:542(merge_cookies)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:159(resolve_redirects)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:207(register_hook)
+        1    0.000    0.000    0.000    0.000 {createCLAHE}
+       32    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:136(__enter__)
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\threading.py:122(RLock)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:517(family)
+        7    0.000    0.000    0.000    0.000 {method 'fullmatch' of 're.Pattern' objects}
+        2    0.000    0.000    0.000    0.000 {method 'readlines' of '_io._IOBase' objects}
+       61    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\numpy\_core\numeric.py:479(_count_nonzero_dispatcher)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:141(clear)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:834(_init_length)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\ssl_.py:487(is_ipaddress)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\typing.py:1665(__subclasscheck__)
+       11    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\queue.py:311(_get)
+       28    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\threading.py:281(__init__)
+       13    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+       42    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\numpy\_core\fromnumeric.py:3694(_mean_dispatcher)
+       33    0.000    0.000    0.000    0.000 {method 'partition' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:172(from_float)
+       25    0.000    0.000    0.000    0.000 {method 'setdefault' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\contextlib.py:108(__init__)
+       42    0.000    0.000    0.000    0.000 {built-in method numpy.asanyarray}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:188(clone)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:782(close)
+       22    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.lock' objects}
+        4    0.000    0.000    0.000    0.000 <frozen _collections_abc>:827(items)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:951(quote_from_bytes)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:430(close)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:529(get_encoding_from_headers)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:799(mount)
+       11    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\queue.py:308(_put)
+       12    0.000    0.000    0.000    0.000 <frozen os>:780(check_str)
+       14    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:412(<genexpr>)
+       23    0.000    0.000    0.000    0.000 {method '__enter__' of '_thread.lock' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:541(minimum_version)
+        8    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1066(_output)
+       21    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\util\prediction.py:455(__exception_check)
+       23    0.000    0.000    0.000    0.000 {method 'lstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {method 'setsockopt' of '_socket.socket' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:100(__setitem__)
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:29(_splitparam)
+        3    0.000    0.000    0.000    0.000 {function SocketIO.close at 0x000001B35FC31620}
+       13    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
+        8    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\retry.py:253(<genexpr>)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\ssl_.py:186(resolve_cert_reqs)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:507(detach)
+       17    0.000    0.000    0.000    0.000 {method 'upper' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1735(clear_expired_cookies)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:123(pushlines)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:93(__getitem__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:536(urlunsplit)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:358(update)
+       17    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\weakref.py:568(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:396(_check_close)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py:1498(debug)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:694(__init__)
+       21    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\util\prediction.py:100(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:692(unquote)
+        1    0.000    0.000    0.000    0.000 {method 'getsockopt' of '_socket.socket' objects}
+       23    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_collections.py:295(__iter__)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\hooks.py:15(default_hooks)
+       22    0.000    0.000    0.000    0.000 {method 'find' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:600(_init_decoder)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:71(close)
+        1    0.000    0.000    0.000    0.000 {method 'rsplit' of 'str' objects}
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1754(__iter__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:107(get_redirect_target)
+       25    0.000    0.000    0.000    0.000 {method 'popleft' of 'collections.deque' objects}
+       23    0.000    0.000    0.000    0.000 {method '__exit__' of '_thread.lock' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:116(__init__)
+        2    0.000    0.000    0.000    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:85(path_url)
+       11    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        5    0.000    0.000    0.000    0.000 {method '__exit__' of 'memoryview' objects}
+        1    0.000    0.000    0.000    0.000 {method 'getpeername' of '_socket.socket' objects}
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:126(resolve_default_timeout)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:395(put)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:781(get_adapter)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:54(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:258(__init__)
+        2    0.000    0.000    0.000    0.000 {method 'write' of '_io.BytesIO' objects}
+       12    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:909(text)
+        9    0.000    0.000    0.000    0.000 {method 'values' of 'collections.OrderedDict' objects}
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\_internal_utils.py:25(to_native_string)
+        2    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'ravel' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1298(_cookie_attrs)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:769(is_redirect)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:245(read_timeout)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:156(username)
+        9    0.000    0.000    0.000    0.000 {method 'strip' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 <frozen abc>:121(__subclasscheck__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:555(options)
+        9    0.000    0.000    0.000    0.000 {method 'values' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:645(parent)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:626(unquote_unreserved)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:949(_wrap_ipv6)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:393(prepare_method)
+        4    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.RLock' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\typing.py:426(inner)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:978(urlencode)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:661(verify_flags)
+        6    0.000    0.000    0.000    0.000 {method 'decode' of 'bytearray' objects}
+        1    0.000    0.000    0.000    0.000 <frozen _collections_abc>:853(__len__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\retry.py:403(is_retry)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:442(flush)
+        6    0.000    0.000    0.000    0.000 {built-in method nt._path_splitroot_ex}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:523(type)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:202(start_connect)
+        4    0.000    0.000    0.000    0.000 {built-in method time.time}
+        4    0.000    0.000    0.000    0.000 {method 'copy' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method sys.audit}
+        1    0.000    0.000    0.000    0.000 {method '_set_alpn_protocols' of '_ssl._SSLContext' objects}
+       21    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\util\prediction.py:121(json)
+        6    0.000    0.000    0.000    0.000 {method 'count' of 'bytes' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:197(_new_message)
+       12    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:130(_validate_timeout)
+        4    0.000    0.000    0.000    0.000 {method 'groups' of 're.Match' objects}
+        1    0.000    0.000    0.000    0.000 {method 'rstrip' of 'bytes' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:175(port)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\poolmanager.py:388(_merge_pool_kwargs)
+        1    0.000    0.000    0.000    0.000 {method 'write' of '_io.StringIO' objects}
+        3    0.000    0.000    0.000    0.000 {method 'split' of 'bytes' objects}
+        1    0.000    0.000    0.000    0.000 {method 'Close' of 'winreg.PyHKEY' objects}
+        6    0.000    0.000    0.000    0.000 {built-in method nt.fspath}
+        9    0.000    0.000    0.000    0.000 {method 'isascii' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:1287(closed)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1286(_validate_host)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:677(verify_mode)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:799(iter_content)
+        2    0.000    0.000    0.000    0.000 {method 'pop' of 'collections.OrderedDict' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:504(_parse_content_type_header)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\response.py:9(is_fp_closed)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1265(_encode_request)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1278(_validate_path)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:559(options)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:91(merge_hooks)
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:193(_userinfo)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\retry.py:395(_is_method_retryable)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:214(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\_internal_utils.py:38(unicode_is_ascii)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:334(__init__)
+       12    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\urllib\parse.py:108(_noop)
+        1    0.000    0.000    0.000    0.000 <string>:1(<lambda>)
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:885(__init__)
+        4    0.000    0.000    0.000    0.000 {method 'release' of '_thread.RLock' objects}
+        2    0.000    0.000    0.000    0.000 {method 'read' of '_io.StringIO' objects}
+        3    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:744(readable)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:347(is_closed)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\structures.py:60(__len__)
+        4    0.000    0.000    0.000    0.000 {method '__exit__' of '_thread.RLock' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:211(is_multipart)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:665(verify_flags)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\_request_methods.py:51(__init__)
+        4    0.000    0.000    0.000    0.000 {method 'items' of 'collections.OrderedDict' objects}
+        3    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:388(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:1291(_cookies_for_request)
+        2    0.000    0.000    0.000    0.000 {built-in method _abc._abc_subclasscheck}
+        2    0.000    0.000    0.000    0.000 {method 'extend' of 'collections.deque' objects}
+        4    0.000    0.000    0.000    0.000 {method 'end' of 're.Match' objects}
+        2    0.000    0.000    0.000    0.000 {method 'cast' of 'memoryview' objects}
+        2    0.000    0.000    0.000    0.000 {method 'clear' of 'collections.OrderedDict' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py:1765(isEnabledFor)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:337(set_payload)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:1269(_validate_method)
+        1    0.000    0.000    0.000    0.000 {method 'getvalue' of '_io.BytesIO' objects}
+        1    0.000    0.000    0.000    0.000 {method 'append' of 'bytearray' objects}
+        1    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 <frozen _collections_abc>:850(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:999(raise_for_status)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:210(_pop_message)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:569(hostname_checks_common_name)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:494(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\hooks.py:22(dispatch_hook)
+        1    0.000    0.000    0.000    0.000 {method '_checkReadable' of '_io._IOBase' objects}
+        3    0.000    0.000    0.000    0.000 {method 'gettimeout' of '_socket.socket' objects}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\detect.py:16(_get_model)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\request.py:142(set_file_position)
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1117(_checkClosed)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:881(default_user_agent)
+        1    0.000    0.000    0.000    0.000 {method 'extend' of 'bytearray' objects}
+        2    0.000    0.000    0.000    0.000 {method 'update' of 'collections.OrderedDict' objects}
+        4    0.000    0.000    0.000    0.000 {method 'count' of 'str' objects}
+        5    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:453(isclosed)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:361(proxy_is_forwarding)
+        1    0.000    0.000    0.000    0.000 {method 'sort' of 'list' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\message.py:150(__init__)
+        6    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:392(__len__)
+        4    0.000    0.000    0.000    0.000 {method 'seek' of '_io.StringIO' objects}
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\utils.py:733(set_environ)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:619(_decode)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py:554(retries)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\cookiejar.py:44(_debug)
+        2    0.000    0.000    0.000    0.000 {built-in method time.perf_counter}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\http\client.py:926(_get_hostport)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\ssl_.py:209(resolve_ssl_version)
+        4    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:117(info)
+        1    0.000    0.000    0.000    0.000 {built-in method time.monotonic}
+        2    0.000    0.000    0.000    0.000 {method 'truncate' of '_io.StringIO' objects}
+        1    0.000    0.000    0.000    0.000 {method '_checkClosed' of '_io._IOBase' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.all}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\Documents\GitHub\FAUParkingA\FAUParking\drone_parking_backend\frame processing server\visualize_lot.py:68(promote_master)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\socket.py:491(_decref_socketios)
+        3    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\timeout.py:227(connect_timeout)
+        1    0.000    0.000    0.000    0.000 {built-in method _socket.getdefaulttimeout}
+        1    0.000    0.000    0.000    0.000 {method 'fileno' of '_socket.socket' objects}
+        1    0.000    0.000    0.000    0.000 <frozen codecs>:263(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\connection.py:103(allowed_gai_family)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\roboflow\util\prediction.py:252(__getitem__)
+        2    0.000    0.000    0.000    0.000 {method 'append' of 'collections.deque' objects}
+        1    0.000    0.000    0.000    0.000 {method 'pop' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 {function socket.detach at 0x000001B35FC30AE0}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\ssl.py:1121(_check_connected)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:368(proxy_is_tunneling)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connection.py:188(host)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:110(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\adapters.py:555(add_headers)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\models.py:216(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {function HTTPResponse.flush at 0x000001B35FCD8C20}
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\typing.py:2371(cast)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\parser.py:17(__init__)
+        2    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\email\feedparser.py:126(__iter__)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\connectionpool.py:337(_validate_conn)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\queue.py:302(_init)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\util\proxy.py:11(connection_requires_http_tunnel)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\cookies.py:87(get_new_headers)
+        1    0.000    0.000    0.000    0.000 C:\Users\augus\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\sessions.py:451(__enter__)
+
+
