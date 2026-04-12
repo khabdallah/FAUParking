@@ -30,41 +30,13 @@ struct DashboardView: View {
 
                 ScrollView {
                     VStack(spacing: 16) {
-
-                        // 2D lot layout / map
-                        if let selectedLotId,
-                           let lot = spotsViewModel.lots.first(where: { $0.id == selectedLotId }) {
-                            Lot2DView(
-                                lotName: lot.name,
-                                spots: filteredSpots,
-                                selectedCategory: selectedCategory,
-                                onSpotTap: { spot in
-                                    selectedSpotForInfo = spot
-                                }
-                            )
-                            .padding(.horizontal)
-                        } else {
-                            RoundedRectangle(cornerRadius: 16)
-                                .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [6]))
-                                .frame(height: 220)
-                                .overlay {
-                                    VStack(spacing: 8) {
-                                        Image(systemName: "map")
-                                            .font(.system(size: 40))
-                                        Text("Live Map View")
-                                            .font(.headline)
-                                        Text("Select a lot to see its layout.")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                                .padding(.horizontal)
-                        }
+                        
+                        dashboardHeader
 
                         // Favorite lots (quick pick)
-                        if !spotsViewModel.favoriteLotsOrdered.isEmpty {
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("Favorite lots")
+                            if !spotsViewModel.favoriteLotsOrdered.isEmpty {
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text("Favorite lots")
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
 
@@ -72,22 +44,21 @@ struct DashboardView: View {
                                     HStack(spacing: 8) {
                                         ForEach(spotsViewModel.favoriteLotsOrdered, id: \.id) { lot in
                                             FavoriteLotChip(
-                                                title: lot.name,
-                                                freeCount: spotsViewModel.freeSpotsCount(forLotId: lot.id),
-                                                isSelected: selectedLotId == lot.id
+                                            title: lot.name,
+                                            freeCount: spotsViewModel.freeSpotsCount(forLotId: lot.id),
+                                            isSelected: selectedLotId == lot.id
                                             ) {
                                                 selectedLotId = lot.id
-                                            }
-                                        }
                                     }
                                 }
                             }
-                            .padding(.horizontal)
                         }
-
+                    }
+                    .padding(.horizontal)
+                }
                         // Lot filter
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("Filter by lot")
+                            Text("Choose a lot")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
 
@@ -149,6 +120,40 @@ struct DashboardView: View {
                             }
                         }
                         .padding(.horizontal)
+                        
+                        // 2D lot layout / map
+                        if let selectedLotId,
+                           let lot = spotsViewModel.lots.first(where: { $0.id == selectedLotId }) {
+                            Lot2DView(
+                                lotName: lot.name,
+                                spots: filteredSpots,
+                                selectedCategory: selectedCategory,
+                                onSpotTap: { spot in
+                                    selectedSpotForInfo = spot
+                                }
+                            )
+                            .padding(.horizontal)
+                        } else {
+                            RoundedRectangle(cornerRadius: 16)
+                                .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [6]))
+                                .frame(height: 220)
+                                .overlay {
+                                    VStack(spacing: 8) {
+                                        Image(systemName: "map")
+                                            .font(.system(size: 40))
+                                        Text("Live Map View")
+                                            .font(.headline)
+                                        Text("Select a lot to see its layout.")
+                                            .font(.subheadline)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .padding(.horizontal)
+                        }
+
+                        
+
+                        
 
                         // Stats
                         HStack(spacing: 12) {
@@ -269,6 +274,22 @@ struct DashboardView: View {
 }
 
 private extension DashboardView {
+    var dashboardHeader: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Find parking faster")
+                .font(.title2.bold())
+
+            Text(
+                selectedLotId == nil
+                ? "Choose a lot to view available spaces."
+                : "Tap a space on the map to see details."
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal)
+    }
     var filteredSpots: [ParkingSpot] {
         guard let selectedLotId,
               let lot = spotsViewModel.lots.first(where: { $0.id == selectedLotId }) else {

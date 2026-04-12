@@ -145,8 +145,16 @@ struct LotMapView: View {
                 Task { await geocoder.resolveCoordinates(for: lots) }
             }
         }
-        .sheet(item: $selectedLot) { lot in
-            LotPinSheet(lot: lot, spotCount: spotCount(for: lot))
+        .sheet(item: $selectedLot, onDismiss: {
+            selectedLot = nil
+        }) { lot in
+            LotPinSheet(
+                lot: lot,
+                spotCount: spotCount(for: lot),
+                onClose: {
+                    selectedLot = nil
+                }
+            )
         }
         .navigationTitle("Map")
     }
@@ -175,6 +183,7 @@ struct LotMapView: View {
 struct LotPinSheet: View {
     let lot: Lot
     let spotCount: Int
+    let onClose: () -> Void
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -207,13 +216,15 @@ struct LotPinSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
+                    Button("Done") {
+                        onClose()
+                        dismiss()
+                    }
                 }
             }
         }
     }
 }
-
 #Preview {
     NavigationStack {
         LotMapView()
