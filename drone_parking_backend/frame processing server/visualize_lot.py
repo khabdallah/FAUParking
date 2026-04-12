@@ -9,8 +9,7 @@ from detect import detect_cars
 from occupancy import check_occupancy
 
 
-# Global cache to store precomputed alignment data for each lot
-# Format: { lot_id: (master_kp, master_des) }
+
 MASTER_CACHE = {}
 
 
@@ -20,7 +19,6 @@ def draw_visualization(image, parking_data, occupancy_result, boxes):
 
     occupied_ids = {o["id"] for o in occupancy_result["occupied"]}
 
-    # Draw parking spots
     for polygon, spot_id in parking_data:
         polygon = np.array(polygon, np.int32)
 
@@ -44,7 +42,6 @@ def draw_visualization(image, parking_data, occupancy_result, boxes):
             cv2.LINE_AA,
         )
 
-    # Draw detected cars
     for box in boxes:
         x1, y1, x2, y2 = int(box[0]), int(box[1]), int(box[2]), int(box[3])
         cv2.rectangle(vis, (x1, y1), (x2, y2), (255, 0, 0), 2)
@@ -79,14 +76,12 @@ def promote_master(lot_id, aligned_image, inliers, inlier_threshold=140):
         master_path = os.path.join(lot_path, "master.jpg")
         backup_path = os.path.join(lot_path, "master_backup.jpg")
         
-        # Backup original if not already backed up
         if os.path.exists(master_path) and not os.path.exists(backup_path):
             os.rename(master_path, backup_path)
             
         cv2.imwrite(master_path, aligned_image)
         print(f"🌟 Master image for lot {lot_id} PROMOTED (Inliers: {inliers})")
         
-        # Clear cache so next run uses the new master
         if lot_id in MASTER_CACHE:
             del MASTER_CACHE[lot_id]
         return True
@@ -110,7 +105,7 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
 
     print("Aligning image...")
     
-    # Get or compute cached master features
+   
     if lot_id not in MASTER_CACHE:
         print(f"Precomputing master features for lot {lot_id}...")
         kp, des = precompute_master(master_img)
@@ -123,7 +118,7 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
     inliers = align_result["inliers"]
 
     if align_result["homography"] is None:
-        print("⚠️ Alignment failed — using original image (All fallbacks exhausted)")
+        print(" Alignment failed — using original image (All fallbacks exhausted)")
         aligned = image
     else:
         fallback = align_result.get("fallback_used", "None")
@@ -131,7 +126,6 @@ def visualize_lot(lot_id, image_path, output_path="debug_visualized.jpg"):
             print(f"Alignment successful (Standard Methods). Inliers: {inliers}")
         else:
             print(f"Alignment successful via Fallback ({fallback}). Inliers: {inliers}")
-        # Check if we should promote this frame to be the new master
         promote_master(lot_id, aligned, inliers)
 
     print("Running detection...")

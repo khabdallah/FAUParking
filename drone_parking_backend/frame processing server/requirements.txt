@@ -4,3 +4,5 @@ requests
 opencv-python-headless
 numpy
 roboflow
+pytest
+pytest-mock
