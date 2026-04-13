@@ -25,31 +25,31 @@ Parking Availability Results
 
 ### Components
 
-* **📱 Frontend (iOS App)**
+* ** Frontend (iOS App)**
 
   * Displays parking availability to users
   * Visualizes parking spots and occupancy
 
-* **⚙️ Backend API**
+* ** Backend API**
 
   * Built with FastAPI
   * Handles requests from the mobile app
   * Communicates with processing services and database
 
-* **🧠 Frame Processing Service**
+* ** Frame Processing Service**
 
   * Aligns drone images to top-down view
   * Detects vehicles using YOLOv8
   * Determines occupancy using polygon overlap logic
 
-* **🔄 Workers**
+* ** Workers**
 
   * Handle asynchronous processing tasks
   * Manage data flow between services
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 FAUParking/
@@ -71,7 +71,7 @@ FAUParking/
 
 ---
 
-## 🚀 Features
+##  Features
 
 * Real-time parking detection from drone imagery
 * YOLO-based vehicle detection
@@ -82,7 +82,7 @@ FAUParking/
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Computer Vision**
 
@@ -127,12 +127,6 @@ FAUParking/
 
 ---
 
-
-##  Motivation
-
-Parking inefficiency leads to wasted time and fuel. FAUParking aims to provide a **scalable, automated solution** using computer vision and aerial data.
-
----
 
 ##  Author
 
