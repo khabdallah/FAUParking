@@ -11,7 +11,8 @@ import SwiftUI
 struct ParkingApp: App {
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            LandingView()
+                    .environmentObject(SpotsViewModel())
         }
     }
 }
