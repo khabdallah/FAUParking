@@ -147,7 +147,7 @@ FAUParking/
 
 Drone Control: Open and run the Python Drone Control Code while then switching to the emulated drone control app. Turn on
 any android debugging bridge setting available. Make sure that the Drone has GPS calibrated with two network connections 
-(Internet for server upload and the Drone WIFI itself).
+(Internet for server upload and the Drone WIFI itself). **Important: Point the front of drone towards North!
 
 Mobile app: Open the Parking folder in Xcode on a Mac computer and run the project on an IOS simulator tht supports IOS 26 or higher.
 
