@@ -1,5 +1,10 @@
 
 #  FAUParking – Drone-Based Parking Detection System
+Group members: **Lance Van**
+**Khalid Abdallah**
+**Oliver Si**
+**Bryan Gatto**
+**Gabriel Fusaro**
 
 ##  Overview
 
@@ -117,6 +122,21 @@ FAUParking/
 5. Mobile app displays results
 
 ---
+## App features
+
+* Splash screen when the app is opened
+* Dashboard that displays the data from the database
+* Lot selector
+* Interactable 2D model of lot layout with space status visible
+* spots lists and details screens
+* map screen that shows the user what lots have the system implemented and their addresses.
+---
+
+## How to Run
+
+Mobile app: Open the Parking folder in Xcode on a Mac computer and run the project on an IOS simulator tht supports IOS 26 or higher.
+
+---
 
 ##  Model Details
 
@@ -131,6 +151,10 @@ FAUParking/
 ##  Author
 
 **Lance Van**
+**Khalid Abdallah**
+**Oliver Si**
+**Bryan Gatto**
+**Gabriel Fusaro**
 ---
 
 
