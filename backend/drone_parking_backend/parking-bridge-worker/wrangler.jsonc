@@ -2,6 +2,7 @@
  * For more details on how to configure Wrangler, refer to:
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
+
 {
 	"name": "parking-bridge-worker",
 	"main": "src/index.ts",
@@ -11,9 +12,24 @@
 		{
 			"queue": "frame-jobs", 
 			"max_batch_size": 5,
-			"max_batch_timeout": 1
+			"max_batch_timeout": 1,
+			"max_retries": 5,
+			"dead_letter_queue": "frame-jobs-dlq"
+
+
 		}
 		]
+		
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+		"logs": {
+			"enabled": true,
+			"head_sampling_rate": 1,
+			"persist": true,
+			"invocation_logs": true
+		}
 	}
 	/**
 	 * Smart Placement
