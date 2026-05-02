@@ -16,20 +16,28 @@ The system processes aerial images, identifies vehicles using deep learning mode
 
 ##  System Architecture
 
-The platform is composed of three main components:
+The platform is composed of five main components:
 
 ```
-Frontend (iOS App)
+Drone Control and Imagery
         ↓
 Backend API (FastAPI)
         ↓
 Frame Processing Service (YOLO + OpenCV)
+        ↓
+Frontend (iOS App)
         ↓
 Parking Availability Results
 ```
 
 ### Components
 
+* ** Drone Control and Imagery
+  
+   * Reads and adjusts GPS coordinates of drone
+   * Follows a set of checkpoints
+   * Automates Image Capture and Server Upload
+  
 * ** Frontend (iOS App)**
 
   * Displays parking availability to users
@@ -108,18 +116,21 @@ FAUParking/
 * Google Colab (training)
 * Roboflow (dataset + deployment)
 
+**Drone Control and Imaging**
+* Python
 ---
 
 ##  How It Works
 
-1. Drone captures aerial parking lot images
-2. Frame processing service:
+1. Run Drone Flight Path
+2. Drone captures aerial parking lot images
+3. Frame processing service:
 
    * Corrects perspective (top-down transformation)
    * Detects vehicles using YOLO
-3. System checks overlap between cars and parking spot regions
-4. Backend API returns availability data
-5. Mobile app displays results
+4. System checks overlap between cars and parking spot regions
+5. Backend API returns availability data
+6. Mobile app displays results
 
 ---
 ## App features
@@ -133,6 +144,10 @@ FAUParking/
 ---
 
 ## How to Run
+
+Drone Control: Open and run the Python Drone Control Code while then switching to the emulated drone control app. Turn on
+any android debugging bridge setting available. Make sure that the Drone has GPS calibrated with two network connections 
+(Internet for server upload and the Drone WIFI itself).
 
 Mobile app: Open the Parking folder in Xcode on a Mac computer and run the project on an IOS simulator tht supports IOS 26 or higher.
 
