@@ -185,3 +185,62 @@ The response includes:
 - All column names and table names are sanitized to prevent SQL injection
 - Only alphanumeric characters and underscores are allowed in identifiers
 - Authentication is required for all endpoints
+
+## How to Use
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18+)
+- A [Cloudflare](https://dash.cloudflare.com/) account
+- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-and-update/) (`npm i -g wrangler`)
+
+### Installation
+```bash
+cd general-parking-worker
+npm install
+```
+
+### Local Development
+Start a local dev server with Wrangler:
+```bash
+npm run dev
+```
+The worker will be available at `http://localhost:8787`. Local dev uses Wrangler's simulation of D1, R2, Queues, and Secrets Store bindings.
+
+### Generate Types
+If you modify bindings in `wrangler.jsonc`, regenerate the TypeScript types:
+```bash
+npm run cf-typegen
+```
+
+### Deployment
+Deploy the worker to Cloudflare:
+```bash
+npm run deploy
+```
+> **Note:** Ensure you are authenticated with Wrangler (`wrangler login`) and that the D1 database, R2 bucket, Secrets Store secret, and Queue referenced in `wrangler.jsonc` already exist in your Cloudflare account.
+
+### Environment & Bindings
+The worker relies on the following bindings configured in `wrangler.jsonc`:
+
+| Binding | Type | Purpose |
+|---------|------|---------|
+| `DB` | D1 Database | Stores parking lot and space data |
+| `r2_parking` | R2 Bucket | Stores uploaded camera frames |
+| `SECRET` | Secrets Store | Holds the Bearer token used for authentication |
+| `FRAME_JOBS` | Queue (Producer) | Publishes frame-processing jobs for the bridge worker |
+
+### Key Endpoints
+
+| Endpoint | Auth | Description |
+|----------|------|-------------|
+| `GET /api/health` | No | Health check |
+| `GET /api/lot` | No | List all parking lots |
+| `GET /api/space` | No | List all parking spaces |
+| `GET /api/space/:lot_id` | No | Spaces for a specific lot |
+| `POST /api/upload-frame` | No | Upload a camera frame (multipart or binary) and enqueue a processing job |
+| `GET /api/get-frame/*` | No | Retrieve a stored frame from R2 |
+| `GET /api/list-days` | No | List date-folders in R2 |
+| `GET /api/list-frames/:day` | No | List all frames for a given day |
+| `GET/POST/PATCH/DELETE /rest/{table}` | **Yes** | Generic CRUD operations on any D1 table |
+| `POST /query` | **Yes** | Execute a raw SQL query |
+| `POST /batch-query` | **Yes** | Execute multiple SQL queries in a batch |

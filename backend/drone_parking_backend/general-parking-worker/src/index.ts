@@ -6,6 +6,7 @@ export interface Env {
     DB: D1Database;
     r2_parking: R2Bucket;
     SECRET: SecretsStoreSecret; 
+    FRAME_JOBS: Queue;
 }
 
 // Initialize Hono
@@ -48,33 +49,29 @@ const getEstDateFolder = () => {
         day: '2-digit'
     });
     
+    // Format is usually "MM/DD/YYYY" -> replace slashes with underscores
     // Result: "06_01_2025"
     return formatter.format(now).replace(/\//g, '_');
 };
 
 
 async function publishFrameJob(env, payload) {
-  const url = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/queues/${CF_QUEUE_ID}/messages`;
-
-  const resp = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${CF_QUEUES_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ body: payload }), // IMPORTANT: { body: ... }
-  });
-
-  const data = await resp.json();
-  if (!data?.success) {
-    console.error("Queue publish failed:", data);
+  try {
+    await env.FRAME_JOBS.send(payload);
+    return { success: true };
+  } catch (err) {
+    console.error("Queue publish natively failed:", err);
+    return { success: false, error: err.message };
   }
-  return data;
 }
 
 // Public Routes
 app.get('/api/health', (c) => {
     return c.json({ status: 'ok' });
+});
+
+app.get('/api/version', (c) => {
+    return c.json({ version: '2.0.0-queue-binding' });
 });
 
 app.get('/api/r2-test', async (c) => {
@@ -122,6 +119,30 @@ app.post('/query', authMiddleware, async (c) => {
     }
 });
 
+// Batch SQL Queries
+app.post('/batch-query', authMiddleware, async (c) => {
+    try {
+        const body = await c.req.json();
+        const { queries } = body;
+
+        if (!Array.isArray(queries) || queries.length === 0) {
+            return c.json({ error: 'queries array is required' }, 400);
+        }
+
+        const stmts = queries.map((q: { query: string; params?: any[] }) =>
+            c.env.DB.prepare(q.query).bind(...(q.params || []))
+        );
+
+        const results = await c.env.DB.batch(stmts);
+
+        return c.json({ success: true, results });
+    } catch (error: any) {
+        return c.json({ error: error.message }, 500);
+    }
+});
+
+
+
 //Parking Specific Routes
 app.get('/api/lot', async (c) => {
     const { results } = await c.env.DB
@@ -137,12 +158,21 @@ app.get('/api/space', async (c) => {
     return c.json(results);
 });
 
+app.get('/api/space/:lot_id', async (c) => {
+    const lotId = c.req.param('lot_id');
+    const { results } = await c.env.DB
+        .prepare('SELECT * FROM space WHERE lot_id = ?')
+        .bind(lotId)
+        .all();
+    return c.json(results);
+});
+
 app.get('/api/get-frame/*', async (c) => {
   try {
     const fullPath = c.req.path;
     
-    // Remove the prefix
-    // decodeURIComponent turns "%2F" back into "/" and "%20" back into " "
+    // 1. Remove the prefix
+    // 2. decodeURIComponent turns "%2F" back into "/" and "%20" back into " "
     const key = decodeURIComponent(fullPath.replace('/api/get-frame/', ''));
     
     const object = await c.env.r2_parking.get(key);
@@ -202,7 +232,7 @@ app.post('/api/upload-frame', async (c) => {
               success: true,
               key,
               url: `/api/get-frame/${key}`,
-              enqueued: !!publishResult?.success, // optional: helps debug
+              enqueued: !!publishResult?.success, // optional: helps you debug
             });
         }
 
@@ -227,7 +257,7 @@ app.post('/api/upload-frame', async (c) => {
         const body = new Uint8Array(arrayBuffer);
 
         const timestamp = Date.now();
-        
+        // Update Key Structure: frames/MM_DD_YYYY/timestamp-filename
         // uuid added to avoid filename collision
         const uuid = crypto.randomUUID().split('-')[0];
 
@@ -251,7 +281,7 @@ app.post('/api/upload-frame', async (c) => {
           success: true,
           key,
           url: `/api/get-frame/${key}`,
-          enqueued: !!publishResult?.success, // optional: helps debug
+          enqueued: !!publishResult?.success, // optional: helps you debug
         });
     } catch (err: any) {
         console.error(err);
@@ -261,14 +291,15 @@ app.post('/api/upload-frame', async (c) => {
 
 app.get('/api/list-days', async (c) => {
     try {
-        // ask R2 to list everything starting with 'frames/' 
+        // We ask R2 to list everything starting with 'frames/' 
         // but stop at the next '/' (delimiter).
         const list = await c.env.r2_parking.list({
             prefix: 'frames/',
             delimiter: '/'
         });
 
-        // R2 returns folders
+        // R2 returns "folders" in the delimitedPrefixes array.
+        // Example value: "frames/11_24_2025/"
         const folders = list.delimitedPrefixes.map((prefix) => {
             // Remove "frames/" from the start and "/" from the end
             return prefix.replace('frames/', '').replace('/', '');
@@ -283,7 +314,7 @@ app.get('/api/list-days', async (c) => {
     }
 });
 
-// Return all frames within a specific day
+// 2. Return all frames within a specific day
 app.get('/api/list-frames/:day', async (c) => {
     try {
         const day = c.req.param('day'); // e.g., "11_24_2025"
@@ -291,7 +322,8 @@ app.get('/api/list-frames/:day', async (c) => {
         // Construct the prefix to look for
         const prefix = `frames/${day}/`;
         
-        // List objects. 
+        // List objects. Note: If you have >1000 images, 
+        // you would need to handle pagination (cursor) here.
         const list = await c.env.r2_parking.list({
             prefix: prefix
         });

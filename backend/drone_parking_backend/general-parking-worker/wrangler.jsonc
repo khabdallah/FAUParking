@@ -29,5 +29,13 @@
     ],
 	"observability": {
 		"enabled": true
-	}
+	},
+    "queues": {
+        "producers": [
+            {
+                "binding": "FRAME_JOBS",
+                "queue": "frame-jobs"
+            }
+        ]
+    }
 }
